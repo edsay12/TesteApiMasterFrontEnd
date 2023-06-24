@@ -26,6 +26,9 @@
 
 ## Imagens da Aplicação
 
+<img src="https://github.com/edsay12/TesteAppMasterFrontEnd/blob/main/public/projectImages/pagina_inicial.png" width="100%">
+
+<img src="https://github.com/edsay12/TesteAppMasterFrontEnd/blob/main/public/projectImages/pagina_inicial2.png" width="100%">
 
 
 
