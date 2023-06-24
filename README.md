@@ -23,6 +23,7 @@
 
 ## Imagens da Aplicação
 
-<a href="url"><img src="https://github.com/edsay12/TesteAppMasterFrontEnd/blob/main/public/projectImages/pagina_inicial.png" align="left" height="48" width="48" ></a>
+<img src="https://github.com/edsay12/TesteAppMasterFrontEnd/blob/main/public/projectImages/pagina_inicial.png" width="100%">
 
-<a href="url"><img src="https://github.com/edsay12/TesteAppMasterFrontEnd/blob/main/public/projectImages/pagina_inicial2.png" align="left" height="48" width="48" ></a>
+<img src="https://github.com/edsay12/TesteAppMasterFrontEnd/blob/main/public/projectImages/pagina_inicial2.png" width="100%">
+
