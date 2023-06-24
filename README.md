@@ -11,7 +11,7 @@
 
 ## Link de acesso online 📟
 
-- 
+- https://gamerfinder.netlify.app/
 
 
 ## Descrição do projeto 
