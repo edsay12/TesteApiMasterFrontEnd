@@ -20,6 +20,8 @@ function Home() {
   const [apiData, setApiData] = useState<ApiData[]>();
   const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoding] = useState(false);
+  const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
+
   // filter
   const {
     datafiltred: filtredMovies,
@@ -48,12 +50,16 @@ function Home() {
   };
 
   // Pego os genero unicos que a api retorna
-  const generos = [...new Set(apiData && apiData.map((item) => item.genre))];
-  const generosUnicos = ["Todos", ...generos];
 
   useEffect(() => {
     ApiData();
   }, []);
+  
+  useEffect(() => {
+    const generos = [...new Set(apiData && apiData.map((item) => item.genre))];
+    const generosUnicos = ["Todos", ...generos];
+    setGenerosUnicos(generosUnicos);
+  }, [apiData]);
 
   return (
     <>
@@ -72,6 +78,7 @@ function Home() {
               onChange={handleChange}
             />
             <Select
+              disabled={isLoading}
               data={generosUnicos}
               onChange={handleSelectChange}
               defaultValue={"Selecione um genero"}

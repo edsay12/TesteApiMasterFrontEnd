@@ -14,7 +14,7 @@ export function Select({ onChange, data, defaultValue, ...rest }: PropTypes) {
        {defaultValue}
       </option>
       {data.map((item) => {
-        return <option key={crypto.randomUUID()} value={item}>{item}</option>;
+        return <option  value={item}>{item}</option>;
       })}
     </S.Select>
   );

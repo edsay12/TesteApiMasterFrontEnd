@@ -1,6 +1,7 @@
+import { ApiData } from "../@types";
 import { Axios } from "../configs/axiosConfig";
 const statusErrosCodes = ["500", "502", "503", "504", "507", "508", "509"];
-export function getData(url: string): Promise<string | []> {
+export function getData(url: string): Promise<string | ApiData[]> {
   return Axios.get(url, {
     timeout: 5000, // Timeout de 5s
   })
