@@ -8,7 +8,7 @@ import * as S from "./style";
 import NavBar from "../../components/NavBar";
 import { Banner } from "../../components/Banner";
 import InputArea from "../../components/InputArea";
-import { SectionTitle } from "../../components/SectionTitle";
+import { Delimiter } from "../../components/delimiter";
 import { ApiData } from "../../@types";
 import useFilter from "../../hooks/userFilter";
 import Footer from "../../components/Footer";
@@ -72,7 +72,7 @@ function Home() {
         </Banner>
 
         <Container>
-          <SectionTitle>Todos os jogos encontrados</SectionTitle>
+          <Delimiter>Todos os jogos encontrados</Delimiter>
 
           <S.Conteudo>
             <Loading isloading={isLoading} />

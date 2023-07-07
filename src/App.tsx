@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 
 import { Route, Routes } from "react-router-dom";
 
+import Login from "./pages/Login/index.tsx";
+
 function App() {
   return (
     <>
@@ -14,7 +16,7 @@ function App() {
           <Route path="/" element={<Home />}></Route>
         </Routes>
         <Routes>
-          <Route path="/login" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
         </Routes>
 
         {/* <Home /> */}

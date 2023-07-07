@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const NavBarContainer = styled.div`
   width: 100%;
+  
 
 `;
 export const NavBar = styled.nav`
