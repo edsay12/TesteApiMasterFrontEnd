@@ -5,30 +5,30 @@ import { BsArrowRight } from "react-icons/bs";
 
 import * as S from "./style";
 
-function Login() {
+function Cadastro() {
   return (
     <>
-      <S.LoginContainer>
+      <S.CadastroContainer>
         <S.FormContainer>
-          <S.FormTitle>LOGIN</S.FormTitle>
+          <S.FormTitle>Cadastro</S.FormTitle>
           <S.Form>
             <Input label="Email" borderColor="black"></Input>
+            <Input label="Nicname" borderColor="black"></Input>
             <Input label="Senha" borderColor="black"></Input>
-            <Button>Login</Button>
+            
+            <Button>Cadastrar</Button>
           </S.Form>
-          <S.ForgotPassWordLink href="#">
-            Esqueceu sua senha ?{" "}
-          </S.ForgotPassWordLink>
+          
 
           <S.BottonDetails>
-            <S.BottonLink  to={'/cadastro'} >
-              Crie uma nova conta <BsArrowRight />
+            <S.BottonLink  to={'/login'}>
+              Ja tenho uma conta <BsArrowRight />
             </S.BottonLink>
           </S.BottonDetails>
         </S.FormContainer>
-      </S.LoginContainer>
+      </S.CadastroContainer>
     </>
   );
 }
 
-export default Login;
+export default Cadastro;

@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 
 import Login from "./pages/Login/index.tsx";
+import Cadastro from "./pages/Cadastro/index.tsx";
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
         </Routes>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
+        </Routes>
+        <Routes>
+          <Route path="/cadastro" element={<Cadastro />}></Route>
         </Routes>
 
         {/* <Home /> */}

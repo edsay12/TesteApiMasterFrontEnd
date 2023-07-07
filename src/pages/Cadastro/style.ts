@@ -2,7 +2,7 @@ import styled from "styled-components";
 import gamerbg from "../../assets/Img/gamerbg.jpg";
 import { Link } from "react-router-dom";
 
-export const LoginContainer = styled.section`
+export const CadastroContainer = styled.section`
   width: 100vw;
   height: 100vh;
   background-image: url(${gamerbg});

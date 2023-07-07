@@ -13,5 +13,8 @@ export const Button = styled.button`
     font-weight: bold;
     color: white;
     cursor: pointer;
+    &:hover{
+        opacity: 0.8;
+    }
 
 `
