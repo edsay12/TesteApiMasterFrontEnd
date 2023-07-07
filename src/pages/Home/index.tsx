@@ -14,13 +14,15 @@ import useFilter from "../../hooks/userFilter";
 import Footer from "../../components/Footer";
 import { Input } from "../../components/Inputs/Input";
 import { Select } from "../../components/Inputs/Select";
-import { getData } from "../../actions/getApiData";
+import useFetch from "../../hooks/useFetch";
 
 function Home() {
-  const [apiData, setApiData] = useState<ApiData[]>();
-  const [apiError, setApiError] = useState("");
-  const [isLoading, setIsLoding] = useState(false);
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
+  const {
+    isLoading,
+    error: apiError,
+    data: apiData,
+  } = useFetch<ApiData>("/data");
 
   // filter
   const {
@@ -36,25 +38,6 @@ function Home() {
     setGenero(e.target.value);
   };
 
-  const ApiData = async () => {
-    setIsLoding(true);
-    const data = await getData("data");
-    if (typeof data === "string") {
-      setApiError(data);
-    }
-
-    if (typeof data === "object") {
-      setApiData(data);
-    }
-    setIsLoding(false);
-  };
-
-  // Pego os genero unicos que a api retorna
-
-  useEffect(() => {
-    ApiData();
-  }, []);
-  
   useEffect(() => {
     const generos = [...new Set(apiData && apiData.map((item) => item.genre))];
     const generosUnicos = ["Todos", ...generos];
