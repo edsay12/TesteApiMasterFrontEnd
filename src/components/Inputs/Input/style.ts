@@ -4,7 +4,6 @@ export const Input = styled.input<{ hasError: boolean; borderColor: string }>`
   min-width: 200px;
   width: 100%;
   flex: 1;
-  
 
   padding: 10px;
   border: 1px solid
@@ -13,13 +12,17 @@ export const Input = styled.input<{ hasError: boolean; borderColor: string }>`
   outline: none;
   border-radius: 5px;
 
-  &:focus {
-    border: 1px solid ${({ theme }) => theme.default.colors.purple};
-  }
   ${({ hasError }) =>
     hasError &&
     css`
       border-color: red;
+    `}
+  ${({ hasError }) =>
+    !hasError &&
+    css`
+      &:focus {
+        border: 1px solid ${({ theme }) => theme.default.colors.purple};
+      }
     `}
 `;
 export const Container = styled.div`
