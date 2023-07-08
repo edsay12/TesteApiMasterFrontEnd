@@ -1,8 +1,6 @@
 import * as S from "./style";
 import { SiMonogame } from "react-icons/si";
-import { AiFillHome, AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { FaUserAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { TiThMenu } from "react-icons/ti";
 import { useState } from "react";
