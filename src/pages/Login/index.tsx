@@ -25,6 +25,7 @@ function Login() {
   } = useForm<formProps>({
     criteriaMode: "all",
     reValidateMode: "onChange",
+    mode:'onChange',
     resolver: zodResolver(schema),
   });
 

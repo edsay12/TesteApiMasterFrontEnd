@@ -12,9 +12,14 @@ function Cadastro() {
     email: z.string().email({ message: "Este não e um email valido" }),
     nickname:z.string().min(4,{message:'O nickname deve conter no minimo 4 caracteres'}),
     senha: z
-      .string()
-      .min(6, { message: "A senha deve conter no minimo 6 caracteres" }),
-  });
+    .string()
+    .min(6, { message: "A senha deve conter no minimo 6 caracteres" }),
+    confirmSenha: z.string(),
+  }).refine((fields) => fields.senha === fields.confirmSenha, {  
+    
+    path: ["confirmSenha"],
+    message: "As senhas precisam ser iguais",
+  })
   type formProps = z.infer<typeof schema>;
 
   const {
@@ -25,11 +30,13 @@ function Cadastro() {
   } = useForm<formProps>({
     criteriaMode: "all",
     reValidateMode: "onChange",
+    mode:'onChange',
     resolver: zodResolver(schema),
   });
 
   const handleFormSubmit = (data: formProps) => {
     console.log(data);
+    reset()
   };
   return (
     <>
@@ -40,8 +47,9 @@ function Cadastro() {
             <Input label="Email" borderColor="black" type="text" helperText={errors.email?.message} {...register('email')}></Input>
             <Input label="nickname" borderColor="black" type="text" helperText={errors.nickname?.message} {...register('nickname')}></Input>
             <Input label="Senha" borderColor="black" type="password" helperText={errors.senha?.message} {...register('senha')}></Input>
+            <Input label="Confirmar Senha" borderColor="black" type="password" helperText={errors.confirmSenha?.message} {...register('confirmSenha')}></Input>
 
-            <Button>Cadastrar</Button>
+            <Button type="submit">Cadastrar</Button>
           </S.Form>
 
           <S.BottonDetails>
