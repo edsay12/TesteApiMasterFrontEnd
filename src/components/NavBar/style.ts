@@ -9,6 +9,7 @@ export const NavbarLinks = styled.ul`
   list-style: none;
   display: flex;
   gap: 20px;
+  
 
   li {
     a {
@@ -55,16 +56,19 @@ const headerAparece = keyframes`
 
 export const NavBarContainer = styled.div`
   width: 100%;
+  
 
   @media screen and (max-width: 763px) {
     ${NavbarLinks} {
       display: none;
+      
     }
     ${ResponsiveIcon} {
       display: block;
     }
 
     &.open {
+      
       align-items: center;
       z-index: 10000000;
       position: relative;
@@ -75,6 +79,7 @@ export const NavBarContainer = styled.div`
         top: 26px;
         right: 26px;
         z-index: 1000;
+        position: absolute;
       }
 
       ${NavbarLinks} {
@@ -84,13 +89,12 @@ export const NavBarContainer = styled.div`
         right: 40px;
         width: 200px;
         animation: ${headerAparece} 1s forwards;
+        position: absolute;
+        
 
         display: flex;
-        background: linear-gradient(
-          29deg,
-          rgba(0, 17, 40, 1) 2%,
-          rgba(0, 51, 51, 1) 70%
-        );
+        background-color: rgb(0,0,0,1);
+        
         border-radius: 5px;
         padding: 40px;
 
@@ -122,6 +126,7 @@ export const NavBar = styled.nav`
   justify-content: space-between;
   width: 100%;
   padding: 25px;
+  
 `;
 
 export const NavbarLogo = styled.a`
