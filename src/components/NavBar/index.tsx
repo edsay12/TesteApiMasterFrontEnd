@@ -3,15 +3,12 @@ import { SiMonogame } from "react-icons/si";
 import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { TiThMenu } from "react-icons/ti";
+import { AiFillHome,AiFillHeart } from "react-icons/ai";
+
 import { useState } from "react";
 function NavBar() {
   const [isResposiveNavbarOpen, setResposiveNavbarOpen] = useState(false);
-  const modal = window.document.querySelector("body");
-  if (isResposiveNavbarOpen) {
-    modal?.classList.add("modalOppen");
-  } else {
-    modal?.classList.remove("modalOppen");
-  }
+  
   return (
     <S.NavBarContainer className={isResposiveNavbarOpen ? "open" : "close"}>
       <S.NavBar>
@@ -21,13 +18,13 @@ function NavBar() {
         </S.NavbarLogo>
         <S.NavbarLinks>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/" onClick={() => setResposiveNavbarOpen(false)}>  Home</Link>
           </li>
           <li>
-            <Link to="/favoritos">Favoritos</Link>
+            <Link to="/favoritos" onClick={() => setResposiveNavbarOpen(false)}> Favoritos</Link>
           </li>
           <li>
-            <Link to="/login">Login</Link>
+            <Link to="/login" onClick={() => setResposiveNavbarOpen(false)}>Login</Link>
           </li>
         </S.NavbarLinks>
         <S.ResponsiveIcon>

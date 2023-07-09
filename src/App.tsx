@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Login from "./pages/Login/index.tsx";
 import Cadastro from "./pages/Cadastro/index.tsx";
+import Error404 from "./pages/404/index.tsx";
 
 function App() {
   return (
@@ -14,13 +15,13 @@ function App() {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-        </Routes>
-        <Routes>
-          <Route path="/login" element={<Login />}></Route>
-        </Routes>
-        <Routes>
-          <Route path="/cadastro" element={<Cadastro />}></Route>
+          <Route path="*" element={<Error404 />} />
+
+          <Route path="/" element={<Home />} />
+
+          <Route path="/login" element={<Login />} />
+
+          <Route path="/cadastro" element={<Cadastro />} />
         </Routes>
 
         {/* <Home /> */}

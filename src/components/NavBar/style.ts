@@ -9,6 +9,8 @@ export const NavbarLinks = styled.ul`
   list-style: none;
   display: flex;
   gap: 20px;
+  align-items: center;
+  justify-content: center;
   
 
   li {
@@ -93,7 +95,8 @@ export const NavBarContainer = styled.div`
         
 
         display: flex;
-        background-color: rgb(0,0,0,1);
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         
         border-radius: 5px;
         padding: 40px;
