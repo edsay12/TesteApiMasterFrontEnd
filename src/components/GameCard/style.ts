@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled, { css, keyframes } from "styled-components";
 
 export const MovieCard = styled.div`
@@ -84,3 +85,24 @@ export const LikeIcon = styled.div<{isLiked : boolean }>`
   cursor: pointer;
   ${({isLiked}) => isLiked && css`animation: ${likeAnimation} 0.5s ease-in-out;`}
 `;
+
+export const CardRate = styled.div`
+margin-top: 10px;
+display: flex;
+gap: 5px;
+color: #8c8c8c;
+align-items: center;
+
+`
+export const Rate = styled.div`
+font-size: 10px;
+`
+export const NumberOfRates = styled.div`
+font-size: 10px;
+`
+
+export const RateModalLink = styled.a`
+color: black;
+font-size: 10px;
+
+`
