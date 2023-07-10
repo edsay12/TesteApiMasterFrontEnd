@@ -9,6 +9,7 @@ import Login from "./pages/Login/index.tsx";
 import Cadastro from "./pages/Cadastro/index.tsx";
 import Error404 from "./pages/404/index.tsx";
 import Favoritos from "./pages/Favoritos/index.tsx";
+import RateModal from "./components/RateModal/index.tsx";
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        
+        <RateModal />
         <Routes>
           <Route path="*" element={<Error404 />} />
           <Route path="/" element={<Home />} />
