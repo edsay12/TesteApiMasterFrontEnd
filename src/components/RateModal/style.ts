@@ -45,10 +45,13 @@ export const ModalBody = styled.div`
 
 export const Question = styled.div`
   margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: bold;
 `;
 export const RateContainer = styled.div`
   font-size: 35px;
   text-align: center;
+  ;
 `;
 export const GameName = styled.div`
   text-align: center;
@@ -57,4 +60,5 @@ export const GameName = styled.div`
 `;
 export const ModalFooter = styled.div`
   margin-top: 40px;
+  
 `;

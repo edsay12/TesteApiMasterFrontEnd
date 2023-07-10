@@ -73,7 +73,7 @@ function Favoritos() {
         </Banner>
 
         <Container>
-          <Delimiter>Todos os jogos favoritos </Delimiter>
+          <Delimiter>Todos os seus favoritos </Delimiter>
 
           <S.Conteudo>
             <Loading isloading={isLoading} />

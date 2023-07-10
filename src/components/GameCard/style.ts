@@ -101,8 +101,10 @@ export const NumberOfRates = styled.div`
 font-size: 10px;
 `
 
-export const RateModalLink = styled.a`
+export const RateModalButton = styled.div`
 color: black;
 font-size: 10px;
+text-decoration: underline;
+cursor: pointer;
 
 `
