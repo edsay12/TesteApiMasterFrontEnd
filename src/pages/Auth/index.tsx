@@ -50,7 +50,12 @@ function Auth() {
   });
 
   const handleFormSubmit = (data: formProps) => {
-    console.log(data);
+    if(variant === 'LOGIN'){
+      console.log('login',data);
+
+    }else if(variant === 'REGISTER') {
+      console.log('registro',data);
+    }
     reset();
   };
 
@@ -85,7 +90,6 @@ function Auth() {
               type="text"
               borderColor="black"
               helperText={errors.username?.message}
-              
               {...register("username")}
             />
           )}

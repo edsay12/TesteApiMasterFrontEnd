@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import gamerbg from "../../assets/Img/gamerbg.jpg";
-import { Link } from "react-router-dom";
 
-export const CadastroContainer = styled.section`
-  width: 100%;
-  height:100%;
+
+export const LoginContainer = styled.section`
+  width: 100vw;
+  height: 100vh;
   background-image: url(${gamerbg});
   background-repeat: no-repeat;
   background-position: center;
@@ -14,7 +14,6 @@ export const CadastroContainer = styled.section`
 export const FormContainer = styled.div`
   width: 100%;
   max-width: 500px;
-
   margin: 0 auto;
   background-color: white;
   height: 100%;
@@ -44,11 +43,13 @@ export const ForgotPassWordLink = styled.a`
 `;
 export const BottonDetails = styled.div``;
 
-export const BottonLink = styled(Link)`
-  margin-top: 40px;
+export const BottonLink = styled.div`
+  margin-top: 50px;
   display: flex;
   align-items: center;
   text-decoration: none;
+  text-decoration: underline;
+  cursor: pointer;
   gap: 10px;
   color: ${({ theme }) => theme.default.colors.purple};
   justify-content: center;

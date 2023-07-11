@@ -3,7 +3,7 @@ import { SiMonogame } from "react-icons/si";
 import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { TiThMenu } from "react-icons/ti";
-import { AiFillHome,AiFillHeart } from "react-icons/ai";
+
 
 import { useState } from "react";
 function NavBar() {
