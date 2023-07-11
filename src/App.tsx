@@ -5,11 +5,10 @@ import Home from "./pages/Home";
 
 import { Route, Routes } from "react-router-dom";
 
-import Login from "./pages/Login/index.tsx";
+import Auth from "./pages/Login/index.tsx";
 import Cadastro from "./pages/Cadastro/index.tsx";
 import Error404 from "./pages/404/index.tsx";
 import Favoritos from "./pages/Favoritos/index.tsx";
-import RateModal from "./components/RateModal/index.tsx";
 
 
 function App() {
@@ -17,11 +16,10 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <RateModal />
         <Routes>
           <Route path="*" element={<Error404 />} />
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/favoritos" element={<Favoritos />} />
         </Routes>

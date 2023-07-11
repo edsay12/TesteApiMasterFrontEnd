@@ -24,7 +24,7 @@ function NavBar() {
             <Link to="/favoritos" onClick={() => setResposiveNavbarOpen(false)}> Favoritos</Link>
           </li>
           <li>
-            <Link to="/login" onClick={() => setResposiveNavbarOpen(false)}>Login</Link>
+            <Link to="/auth" onClick={() => setResposiveNavbarOpen(false)}>Login</Link>
           </li>
         </S.NavbarLinks>
         <S.ResponsiveIcon>

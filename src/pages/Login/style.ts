@@ -43,11 +43,13 @@ export const ForgotPassWordLink = styled.a`
 `;
 export const BottonDetails = styled.div``;
 
-export const BottonLink = styled(Link)`
-  margin-top: 100px;
+export const BottonLink = styled.div`
+  margin-top: 50px;
   display: flex;
   align-items: center;
   text-decoration: none;
+  text-decoration: underline;
+  cursor: pointer;
   gap: 10px;
   color: ${({ theme }) => theme.default.colors.purple};
   justify-content: center;

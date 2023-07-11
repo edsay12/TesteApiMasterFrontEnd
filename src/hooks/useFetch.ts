@@ -36,7 +36,7 @@ function useFetch<T>(
           );
         }
       });
-  }, []);
+  }, [url]);
 
   return { isLoading, data, error };
 }

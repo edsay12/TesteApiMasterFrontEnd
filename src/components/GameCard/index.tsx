@@ -3,9 +3,9 @@ import * as S from "./style";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useState } from "react";
+
+import AuthAlert from "../AuthAlert";
 import StarRate from "../StarRate/DinamicRate";
-import StaticRate from "../StarRate/StaticRate";
-import RateModal from "../RateModal";
 
 type MovieCardProps = {
   data: ApiData;
@@ -24,11 +24,9 @@ function GameCard({ data }: MovieCardProps) {
     setIsModalOpen(!isModalOpen);
   };
 
-
   return (
     <>
-      <RateModal
-        
+      <AuthAlert
         gameId={data.id}
         isModalOpen={isModalOpen}
         toggleModal={toggleModal}
@@ -37,23 +35,25 @@ function GameCard({ data }: MovieCardProps) {
       <S.MovieCard>
         <S.CardImageContainer>
           <S.CardImage src={data.thumbnail} alt="Imagem de um game" />
-          <S.LikeIcon onClick={() => handleLiked()} isLiked={isLiked}>
-            {!isLiked && <AiOutlineHeart />}
-
-            {isLiked && <AiFillHeart />}
-          </S.LikeIcon>
         </S.CardImageContainer>
         <S.CardBotton>
           <S.CardTitle key={data.id}>{data.title}</S.CardTitle>
           <S.CardDetails>
             <p>{data.publisher}</p>-<p>{year}</p>-<p>{data.genre}</p>
           </S.CardDetails>
-          <S.CardRate>
-            <StaticRate numberOfStars={3} totalOfRates={1} />
-            <S.Rate>4.6</S.Rate>
-            <S.NumberOfRates>(86)</S.NumberOfRates>
-            <S.RateModalButton  onClick={() => toggleModal()}>Avaliar Game</S.RateModalButton>
-          </S.CardRate>
+          <S.CardRatingContainer>
+            <S.CardRate>
+              <StarRate/>
+              <S.Rate>4.6</S.Rate>
+              <S.NumberOfRates>(86)</S.NumberOfRates>
+              
+            </S.CardRate>
+            <S.LikeIcon onClick={() => {handleLiked(),toggleModal() }}  isLiked={isLiked}>
+              {!isLiked && <AiOutlineHeart />}
+
+              {isLiked && <AiFillHeart />}
+            </S.LikeIcon>
+          </S.CardRatingContainer>
 
           <S.CardDescription>{data.short_description}</S.CardDescription>
           <S.CardButton href={data.game_url} target="_blank">

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+
 import styled, { css, keyframes } from "styled-components";
 
 export const MovieCard = styled.div`
@@ -65,6 +65,13 @@ export const CardImageContainer = styled.div`
   position: relative;
 `;
 
+export const CardRatingContainer = styled.div`
+  display: flex;
+  
+  align-items: center;
+  justify-content: space-between;
+
+`
 const likeAnimation = keyframes`
   0% {
     transform: scale(1);
@@ -77,9 +84,8 @@ const likeAnimation = keyframes`
   }
 `;
 export const LikeIcon = styled.div<{isLiked : boolean }>`
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  display: flex;
+  align-items: center;
   font-size: 30px;
   color: #f34133;
   cursor: pointer;

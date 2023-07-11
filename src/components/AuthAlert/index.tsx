@@ -1,9 +1,8 @@
-import { AiFillCloseCircle, AiFillCloseSquare } from "react-icons/ai";
+import { AiFillCloseSquare } from "react-icons/ai";
+import { BiSad } from "react-icons/bi";
 import * as S from "./style";
 import { Button } from "../button";
-import StarRate from "../StarRate/DinamicRate";
-
-import { useState } from "react";
+import {useNavigate} from 'react-router-dom'
 
 type PropTypes = {
   gameId: number;
@@ -12,9 +11,12 @@ type PropTypes = {
   toggleModal: () => void;
 };
 
-function RateModal({ gameId, gameName, isModalOpen, toggleModal }: PropTypes) {
-  if(!isModalOpen){
-    return null
+function AuthAlert({ isModalOpen, toggleModal }: PropTypes) {
+  const navigate = useNavigate()
+
+
+  if (!isModalOpen) {
+    return null;
   }
   return (
     <S.ModalContainer isModalOppen={isModalOpen}>
@@ -24,21 +26,19 @@ function RateModal({ gameId, gameName, isModalOpen, toggleModal }: PropTypes) {
             <AiFillCloseSquare />
           </S.IcoContainer>
         </S.ModalHeader>
+        <S.ModalSadIcon>
+          <BiSad />
+        </S.ModalSadIcon>
         <S.ModalBody>
-          <S.Question>O que você achou do game ?</S.Question>
-          <S.GameName>{gameName}</S.GameName>
-
-          <S.RateContainer>
-            <StarRate />
-          </S.RateContainer>
+          <S.Question>È necessário fazer login antes de continuar</S.Question>
         </S.ModalBody>
 
         <S.ModalFooter>
-          <Button>Enviar Avaliação</Button>
+          <Button onClick={()=> navigate('/auth')}>Login</Button>
         </S.ModalFooter>
       </S.Modal>
     </S.ModalContainer>
   );
 }
 
-export default RateModal;
+export default AuthAlert;

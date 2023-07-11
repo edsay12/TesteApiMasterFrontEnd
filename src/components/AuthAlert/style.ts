@@ -1,4 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const ModalContainer = styled.div<{ isModalOppen: boolean }>`
   width: 100vw;
@@ -11,8 +22,11 @@ export const ModalContainer = styled.div<{ isModalOppen: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  display: ${({isModalOppen})=> !isModalOppen && 'none' };
+  display: ${({ isModalOppen }) => !isModalOppen && "none"};
+  
 `;
+
+
 
 export const Modal = styled.div`
   width: 300px;
@@ -22,6 +36,7 @@ export const Modal = styled.div`
   flex-direction: column;
   align-items: center;
   border-radius: 5px;
+  animation: ${fadeIn} .5s ease-out ;
 `;
 
 export const ModalHeader = styled.div`
@@ -38,6 +53,10 @@ export const IcoContainer = styled.div`
   color: red;
   cursor: pointer;
 `;
+export const ModalSadIcon = styled.div`
+  color: ${({ theme }) => theme.default.colors.purple};
+  font-size: 50px;
+`;
 
 export const ModalBody = styled.div`
   margin-top: 20px;
@@ -47,11 +66,11 @@ export const Question = styled.div`
   margin-bottom: 20px;
   font-size: 15px;
   font-weight: bold;
+  text-align: center;
 `;
 export const RateContainer = styled.div`
   font-size: 35px;
   text-align: center;
-  ;
 `;
 export const GameName = styled.div`
   text-align: center;
@@ -60,5 +79,4 @@ export const GameName = styled.div`
 `;
 export const ModalFooter = styled.div`
   margin-top: 40px;
-  
 `;
