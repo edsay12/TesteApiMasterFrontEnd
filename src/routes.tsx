@@ -6,6 +6,7 @@ import Auth from "./pages/Auth/index.tsx";
 import Error404 from "./pages/404/index.tsx";
 import Favoritos from "./pages/Favoritos/index.tsx";
 import { useAuth } from "./hooks/useAuth.ts";
+import { useModal } from "./hooks/useModal.ts";
 
 
 // autorização
@@ -18,7 +19,11 @@ function PrivateRoute({
 }) {
   const { user } = useAuth();
   const isAuthenticate = user ? true : false;
-  console.log('isso')
+  const {oppenModal } = useModal()
+  if(!user){
+    oppenModal()
+
+  }
 
   return isAuthenticate ? children : <Navigate to={redirectTo} />;
 }

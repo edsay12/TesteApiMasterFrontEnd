@@ -1,5 +1,6 @@
 import * as firebaseAuth from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth } from "../configs/firebaseConfig";
+
 
 class AuthService {
   login(email: string, senha: string) {

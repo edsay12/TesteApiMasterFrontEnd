@@ -10,16 +10,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useState } from "react";
 import AuthService from "../../services/AuthService";
 
-
 import { useAuth } from "../../hooks/useAuth";
 import dbService from "../../services/dbService";
 
 function Auth() {
   const [isLoading, setIsLoading] = useState(false);
-  
-  const {login} = useAuth();
 
-  
+  const { login } = useAuth();
 
   const schema = z
     .object({
@@ -67,23 +64,20 @@ function Auth() {
 
   const handleFormSubmit = (dados: formProps) => {
     // eslint-disable-next-line no-var
-    var myData = dados
+    var myData = dados;
     if (variant === "LOGIN") {
-      setIsLoading(true);
-      login(dados)
-      setIsLoading(false)
+      login(dados);
     } else if (variant === "REGISTER") {
       AuthService.createNewUser(dados.email, dados.senha)
         .then((data) => {
           console.log("sucesso", data);
-          
-          dbService.newUser(data.user.uid,myData.username)
+
+          dbService.newUser(data.user.uid, myData.username);
           reset();
         })
         .catch((err) => {
           console.log(err);
         });
-        
     }
     setIsLoading(false);
   };
@@ -144,7 +138,6 @@ function Auth() {
 
               <BsArrowRight />
             </S.BottonLink>
-           
           </S.BottonDetails>
         </S.FormContainer>
       </S.LoginContainer>

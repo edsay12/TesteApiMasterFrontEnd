@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 function NavBar() {
   const [isResposiveNavbarOpen, setResposiveNavbarOpen] = useState(false);
-  const { user} = useAuth();
+  const { user ,logout} = useAuth();
 
       
  
@@ -44,9 +44,9 @@ function NavBar() {
           )}
           {user && (
             <li>
-              <Link to={'/account'}>
-               Conta
-              </Link>
+              <a onClick={()=> logout()}>
+               Deslogar
+              </a>
             </li>
           )}
         </S.NavbarLinks>

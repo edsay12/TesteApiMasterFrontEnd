@@ -8,6 +8,7 @@ import { useState } from "react";
 import StarRate from "../StarRate/DinamicRate";
 import { useAuth } from "../../hooks/useAuth";
 import { useModal } from "../../hooks/useModal";
+import { toast } from "react-toastify";
 
 type MovieCardProps = {
   data: ApiData;
@@ -23,7 +24,8 @@ function GameCard({ data }: MovieCardProps) {
   const { user } = useAuth();
   function handleLiked() {
     if (!user) {
-      oppenModal();
+      oppenModal()
+      
     }
     else{
       setIsLiked((like) => !like)

@@ -18,13 +18,13 @@ import useFetch from "../../hooks/useFetch";
 
 function Favoritos() {
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
+
   const {
     isLoading,
     error: apiError,
     data: apiData,
   } = useFetch<ApiData>("/data");
 
-  
   // filter
   const {
     datafiltred: filtredMovies,

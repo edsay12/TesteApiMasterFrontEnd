@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import AuthService from "../../services/AuthService";
 import { User } from "firebase/auth";
+import { toast } from "react-toastify";
 
 export type UserProps = User;
 
@@ -16,23 +17,19 @@ type UserLogin = {
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  
-  AuthService.getLoggedUser()
-  .then((data) => {
-    setUser(data);
-      
-  })
-  .catch((error) => { 
-    setUser(error)
-  });
-  
-
-  
   const [user, setUser] = useState<UserProps | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useState(() => {
+    const user = localStorage.getItem("sessionUser");
+    if (user) [setUser(JSON.parse(user))];
+    
+  }, []);
 
   const login = ({ email, senha }: UserLogin): void => {
     AuthService.login(email, senha)
       .then((user) => {
+        localStorage.setItem("sessionUser", JSON.stringify(user));
         setUser(user.user);
       })
       .catch((err) => {
@@ -42,9 +39,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = () => {
-    AuthService.logout();
-    setUser(null)
-    
+    AuthService.logout().then(() => {
+      localStorage.removeItem("sessionUser");
+      setUser(null);
+      toast.success("Voce nao esta mais logado ! ");
+    });
   };
 
   return (

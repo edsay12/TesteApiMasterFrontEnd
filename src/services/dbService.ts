@@ -1,5 +1,6 @@
 import { addDoc, collection, doc, getDocs, updateDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db } from "../configs/firebaseConfig";
+
 
 
 type Favorito = {
