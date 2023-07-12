@@ -20,7 +20,7 @@ function StarRate() {
   }
   return (
     <S.StartRate>
-      {[...Array(5)].map((index) => {
+      {[...Array(5)].map((_star,index) => {
         const starValue = index + 1;
         return (
           <label key={index}>
