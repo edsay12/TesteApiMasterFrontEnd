@@ -15,9 +15,25 @@ import Footer from "../../components/Footer";
 import { Input } from "../../components/Inputs/Input";
 import { Select } from "../../components/Inputs/Select";
 import useFetch from "../../hooks/useFetch";
+import { useAuth } from "../../hooks/useAuth";
+import dbService from "../../services/dbService";
 
 function Home() {
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const getuser = async () =>{
+      if (user) {
+        
+        console.log('user', (await dbService.getUserById({userId:user.uid})))
+      }
+
+    }
+    getuser()
+    
+  }, [user]);
+
   const {
     isLoading,
     error: apiError,

@@ -4,8 +4,10 @@ import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useState } from "react";
 
-import AuthAlert from "../AuthAlert";
+
 import StarRate from "../StarRate/DinamicRate";
+import { useAuth } from "../../hooks/useAuth";
+import { useModal } from "../../hooks/useModal";
 
 type MovieCardProps = {
   data: ApiData;
@@ -14,24 +16,22 @@ function GameCard({ data }: MovieCardProps) {
   const dateObject = new Date(data.release_date);
   const year = dateObject.getFullYear();
   const [isLiked, setIsLiked] = useState(false);
-  const handleLiked = () => {
-    setIsLiked(!isLiked);
-  };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
+  const { oppenModal } = useModal();
+
+  const { user } = useAuth();
+  function handleLiked() {
+    if (!user) {
+      oppenModal();
+    }
+    else{
+      setIsLiked((like) => !like)
+    }
+  }
 
   return (
     <>
-      <AuthAlert
-        gameId={data.id}
-        isModalOpen={isModalOpen}
-        toggleModal={toggleModal}
-        gameName={data.title}
-      />
       <S.MovieCard>
         <S.CardImageContainer>
           <S.CardImage src={data.thumbnail} alt="Imagem de um game" />
@@ -43,12 +43,16 @@ function GameCard({ data }: MovieCardProps) {
           </S.CardDetails>
           <S.CardRatingContainer>
             <S.CardRate>
-              <StarRate/>
+              <StarRate />
               <S.Rate>4.6</S.Rate>
               <S.NumberOfRates>(86)</S.NumberOfRates>
-              
             </S.CardRate>
-            <S.LikeIcon onClick={() => {handleLiked(),toggleModal() }}  isLiked={isLiked}>
+            <S.LikeIcon
+              onClick={() => {
+                handleLiked();
+              }}
+              isLiked={isLiked}
+            >
               {!isLiked && <AiOutlineHeart />}
 
               {isLiked && <AiFillHeart />}

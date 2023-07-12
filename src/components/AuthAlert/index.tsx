@@ -3,26 +3,23 @@ import { BiSad } from "react-icons/bi";
 import * as S from "./style";
 import { Button } from "../button";
 import {useNavigate} from 'react-router-dom'
+import { useModal } from "../../hooks/useModal";
 
-type PropTypes = {
-  gameId: number;
-  gameName: string;
-  isModalOpen: boolean;
-  toggleModal: () => void;
-};
 
-function AuthAlert({ isModalOpen, toggleModal }: PropTypes) {
+
+function AuthAlert() {
   const navigate = useNavigate()
+  const {closeModal,isModalOppen,oppenModal} = useModal()
 
 
-  if (!isModalOpen) {
+  if (!isModalOppen) {
     return null;
   }
   return (
-    <S.ModalContainer isModalOppen={isModalOpen}>
+    <S.ModalContainer isModalOppen={isModalOppen}>
       <S.Modal>
         <S.ModalHeader>
-          <S.IcoContainer onClick={() => toggleModal()}>
+          <S.IcoContainer onClick={() => closeModal()}>
             <AiFillCloseSquare />
           </S.IcoContainer>
         </S.ModalHeader>
@@ -34,7 +31,7 @@ function AuthAlert({ isModalOpen, toggleModal }: PropTypes) {
         </S.ModalBody>
 
         <S.ModalFooter>
-          <Button onClick={()=> navigate('/auth')}>Login</Button>
+          <Button onClick={()=> {navigate('/auth'),closeModal()}}>Login</Button>
         </S.ModalFooter>
       </S.Modal>
     </S.ModalContainer>

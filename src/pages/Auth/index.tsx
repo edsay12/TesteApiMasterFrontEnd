@@ -5,34 +5,45 @@ import { BsArrowRight } from "react-icons/bs";
 
 import * as S from "./style";
 import { useForm } from "react-hook-form";
-import z  from "zod";
+import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useState } from "react";
+import AuthService from "../../services/AuthService";
+
+
+import { useAuth } from "../../hooks/useAuth";
+import dbService from "../../services/dbService";
 
 function Auth() {
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const {login} = useAuth();
+
+  
+
   const schema = z
-  .object({
-    email: z.string().email({ message: "O email precisa ser valido" }),
-    senha: z
-      .string()
-      .min(5, { message: "A senha deve conter no minimo 5 caracters" }),
-    username: z.string().refine(
-      (value) => {
-        if (variant === "REGISTER") {
-          return value.length >= 5; // e obrigatorio
-        } else {
-          return true; // Não e obrigatorio
-        }
-      },
-      { message: "O seu username deve conter no minimo 5 caracteres" }
-    ),
-  })
-  .transform((fields) => {
-    return {
-      ...fields,
-      username: variant === "REGISTER" ? fields.username : "",
-    };
-  });
+    .object({
+      email: z.string().email({ message: "O email precisa ser valido" }),
+      senha: z
+        .string()
+        .min(5, { message: "A senha deve conter no minimo 5 caracters" }),
+      username: z.string().refine(
+        (value) => {
+          if (variant === "REGISTER") {
+            return value.length >= 5; // e obrigatorio
+          } else {
+            return true; // Não e obrigatorio
+          }
+        },
+        { message: "O seu username deve conter no minimo 5 caracteres" }
+      ),
+    })
+    .transform((fields) => {
+      return {
+        ...fields,
+        username: variant === "REGISTER" ? fields.username : "",
+      };
+    });
   type formProps = z.infer<typeof schema>;
 
   type VarientType = "LOGIN" | "REGISTER";
@@ -47,16 +58,34 @@ function Auth() {
     reValidateMode: "onChange",
     mode: "onChange",
     resolver: zodResolver(schema),
+    defaultValues: {
+      email: "",
+      senha: "",
+      username: "",
+    },
   });
 
-  const handleFormSubmit = (data: formProps) => {
-    if(variant === 'LOGIN'){
-      console.log('login',data);
-
-    }else if(variant === 'REGISTER') {
-      console.log('registro',data);
+  const handleFormSubmit = (dados: formProps) => {
+    // eslint-disable-next-line no-var
+    var myData = dados
+    if (variant === "LOGIN") {
+      setIsLoading(true);
+      login(dados)
+      setIsLoading(false)
+    } else if (variant === "REGISTER") {
+      AuthService.createNewUser(dados.email, dados.senha)
+        .then((data) => {
+          console.log("sucesso", data);
+          
+          dbService.newUser(data.user.uid,myData.username)
+          reset();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+        
     }
-    reset();
+    setIsLoading(false);
   };
 
   const [variant, setVariante] = useState<VarientType>("LOGIN");
@@ -84,15 +113,15 @@ function Auth() {
               helperText={errors.email?.message}
               {...register("email")}
             ></Input>
-             {variant === "REGISTER" && (
-            <Input
-              label={'nickname'}
-              type="text"
-              borderColor="black"
-              helperText={errors.username?.message}
-              {...register("username")}
-            />
-          )}
+            {variant === "REGISTER" && (
+              <Input
+                label={"nickname"}
+                type="text"
+                borderColor="black"
+                helperText={errors.username?.message}
+                {...register("username")}
+              />
+            )}
             <Input
               label="Senha"
               borderColor="black"
@@ -100,22 +129,23 @@ function Auth() {
               helperText={errors.senha?.message}
               {...register("senha")}
             ></Input>
-            <Button>
+            <Button disabled={isLoading}>
               {variant === "REGISTER" ? <p>Cadastrar</p> : <p>Login</p>}
             </Button>
+            <button disabled>sada</button>
           </S.Form>
-         
 
           <S.BottonDetails>
             <S.BottonLink onClick={toogleVariant}>
               {variant === "REGISTER" ? (
                 <p>Ja possuo uma conta</p>
-                ) : (
+              ) : (
                 <p>Ainda não tenho uma conta</p>
               )}
 
               <BsArrowRight />
             </S.BottonLink>
+            <div className="logout">Deslogar</div>
           </S.BottonDetails>
         </S.FormContainer>
       </S.LoginContainer>

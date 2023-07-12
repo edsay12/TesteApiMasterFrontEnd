@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 export const ResponsiveIcon = styled.a`
   color: ${({ theme }) => theme.default.colors.purple};
   display: none;
+ 
 `;
 
 export const NavbarLinks = styled.ul`
@@ -19,6 +20,7 @@ export const NavbarLinks = styled.ul`
       text-decoration: none;
       font-weight:600;
       position: relative;
+      cursor: pointer;
       &::before {
         content: "";
         width: 0;
