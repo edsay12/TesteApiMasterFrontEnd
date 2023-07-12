@@ -132,7 +132,6 @@ function Auth() {
             <Button disabled={isLoading}>
               {variant === "REGISTER" ? <p>Cadastrar</p> : <p>Login</p>}
             </Button>
-            <button disabled>sada</button>
           </S.Form>
 
           <S.BottonDetails>
@@ -145,7 +144,7 @@ function Auth() {
 
               <BsArrowRight />
             </S.BottonLink>
-            <div className="logout">Deslogar</div>
+           
           </S.BottonDetails>
         </S.FormContainer>
       </S.LoginContainer>

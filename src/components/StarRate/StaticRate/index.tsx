@@ -12,7 +12,7 @@ function StaticRate({numberOfStars,totalOfRates}:PropTypes) {
   
   return (
     <S.StartRate>
-      {[...Array(5)].map((star, index) => {
+      {[...Array(5)].map(( index) => {
         const starValue = index + 1;
         return (
           <label key={index}>
