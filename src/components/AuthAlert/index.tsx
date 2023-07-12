@@ -9,7 +9,7 @@ import { useModal } from "../../hooks/useModal";
 
 function AuthAlert() {
   const navigate = useNavigate()
-  const {closeModal,isModalOppen,oppenModal} = useModal()
+  const {closeModal,isModalOppen} = useModal()
 
 
   if (!isModalOppen) {

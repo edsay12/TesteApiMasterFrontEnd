@@ -1,12 +1,12 @@
 import Home from "./pages/Home";
-import { ReactNode, useEffect } from "react";
+import { ReactNode} from "react";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import Auth from "./pages/Auth/index.tsx";
 import Error404 from "./pages/404/index.tsx";
 import Favoritos from "./pages/Favoritos/index.tsx";
 import { useAuth } from "./hooks/useAuth.ts";
-import { useModal } from "./hooks/useModal.ts";
+
 
 // autorização
 function PrivateRoute({

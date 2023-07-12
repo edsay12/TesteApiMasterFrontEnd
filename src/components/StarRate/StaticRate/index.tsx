@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+
 import * as S from "./style";
 import { AiFillStar } from "react-icons/ai";
 
