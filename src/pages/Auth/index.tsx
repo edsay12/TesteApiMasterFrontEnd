@@ -14,7 +14,6 @@ import { useAuth } from "../../hooks/useAuth";
 
 
 function Auth() {
-  const [isLoading, setIsLoading] = useState(false);
   const [variant, setVariante] = useState<VarientType>("LOGIN");
 
   const { login, isLoadingAuth, createNewUser } = useAuth();
@@ -65,11 +64,10 @@ function Auth() {
 
   const handleFormSubmit = (dados: formProps) => {
     // eslint-disable-next-line no-var
-    var myData = dados;
     if (variant === "LOGIN") {
       login(dados);
     } else if (variant === "REGISTER") {
-      createNewUser(dados);
+      createNewUser(dados)
     }
     reset()
   };
@@ -113,7 +111,7 @@ function Auth() {
               helperText={errors.senha?.message}
               {...register("senha")}
             ></Input>
-            <Button isLoading={isLoading || isLoadingAuth}>
+            <Button isLoading={ isLoadingAuth}>
               {variant === "REGISTER" ? <p>Cadastrar</p> : <p>Login</p>}
             </Button>
           </S.Form>

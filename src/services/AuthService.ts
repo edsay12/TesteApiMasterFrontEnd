@@ -8,7 +8,7 @@ class AuthService {
     return firebaseAuth
       .signInWithEmailAndPassword(auth, email, senha)
       .then((user) => {
-        
+        toast.success('Login feito com sucesso')
         return user;
       })
       .catch((error) => {

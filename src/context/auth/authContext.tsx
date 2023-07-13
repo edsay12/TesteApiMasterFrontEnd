@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import AuthService from "../../services/AuthService";
 import { User } from "firebase/auth";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import dbService from "../../services/dbService";
 
@@ -19,7 +18,7 @@ type AuthContextProps = {
 type UserLogin = {
   email: string;
   senha: string;
-  username:string
+  username: string;
 };
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
@@ -39,26 +38,25 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       .then((user) => {
         localStorage.setItem("sessionUser", JSON.stringify(user));
         setIsLoading(false);
+
         setUser(user);
       })
-      .catch((err) => {
+      .catch(() => {
         setIsLoading(false);
-        toast.error(err);
         setUser(null);
       });
   };
 
-  const createNewUser = ({ email, senha,username }: UserLogin) => {
+  const createNewUser = ({ email, senha, username }: UserLogin) => {
     setIsLoading(true);
-    AuthService.createNewUser(email, senha).then((data) => {
-      dbService.newUser(data.user.uid, username);
-      setIsLoading(false);
-      
-     
-    }).catch((e)=>{
-      setIsLoading(false);
-      toast.error(e)
-    });
+    AuthService.createNewUser(email, senha)
+      .then((data) => {
+        dbService.newUser(data.user.uid, username);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
   };
 
   const logout = () => {
