@@ -1,5 +1,6 @@
 import * as firebaseAuth from "firebase/auth";
 import { auth } from "../configs/firebaseConfig";
+import { toast } from "react-toastify";
 
 
 class AuthService {
@@ -11,20 +12,24 @@ class AuthService {
         return user;
       })
       .catch((error) => {
-        console.log(error);
+        toast.error('Usuario ou senha incorretos')
         return Promise.reject(error);
       });
   }
   logout() {
-    return firebaseAuth.signOut(auth);
+    return firebaseAuth.signOut(auth).then(()=>{
+      toast.success('Voce foi deslogado com exito')
+    });
   }
   createNewUser(email: string, senha: string) {
     return firebaseAuth
       .createUserWithEmailAndPassword(auth, email, senha)
       .then((data) => {
+        toast.success('Usuario Criado.')
         return data;
       })
       .catch((error) => {
+        toast.error('Email ja cadastrado.')
         return Promise.reject(error);
       });
   }

@@ -1,6 +1,6 @@
 import { Input } from "../../components/Inputs/Input";
 
-import { Button } from "../../components/button";
+import Button from "../../components/button";
 import { BsArrowRight } from "react-icons/bs";
 
 import * as S from "./style";
@@ -8,15 +8,16 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useState } from "react";
-import AuthService from "../../services/AuthService";
+
 
 import { useAuth } from "../../hooks/useAuth";
-import dbService from "../../services/dbService";
+
 
 function Auth() {
   const [isLoading, setIsLoading] = useState(false);
+  const [variant, setVariante] = useState<VarientType>("LOGIN");
 
-  const { login } = useAuth();
+  const { login, isLoadingAuth, createNewUser } = useAuth();
 
   const schema = z
     .object({
@@ -68,21 +69,10 @@ function Auth() {
     if (variant === "LOGIN") {
       login(dados);
     } else if (variant === "REGISTER") {
-      AuthService.createNewUser(dados.email, dados.senha)
-        .then((data) => {
-          console.log("sucesso", data);
-
-          dbService.newUser(data.user.uid, myData.username);
-          reset();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      createNewUser(dados);
     }
-    setIsLoading(false);
+    reset()
   };
-
-  const [variant, setVariante] = useState<VarientType>("LOGIN");
 
   const toogleVariant = useCallback(() => {
     if (variant === "LOGIN") {
@@ -123,7 +113,7 @@ function Auth() {
               helperText={errors.senha?.message}
               {...register("senha")}
             ></Input>
-            <Button disabled={isLoading}>
+            <Button isLoading={isLoading || isLoadingAuth}>
               {variant === "REGISTER" ? <p>Cadastrar</p> : <p>Login</p>}
             </Button>
           </S.Form>

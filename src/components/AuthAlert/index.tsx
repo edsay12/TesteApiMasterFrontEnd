@@ -1,7 +1,7 @@
 import { AiFillCloseSquare } from "react-icons/ai";
 import { BiSad } from "react-icons/bi";
 import * as S from "./style";
-import { Button } from "../button";
+import  Button  from "../button";
 import {useNavigate} from 'react-router-dom'
 import { useModal } from "../../hooks/useModal";
 

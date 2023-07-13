@@ -35,7 +35,6 @@ class dbService {
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
         const userData = userSnap.data() as UserData;
-        console.log("Usuário encontrado:", userData);
         return userData;
       } else {
         console.log("Usuário não encontrado!");
@@ -127,7 +126,7 @@ class dbService {
       toast.success('Usuario adicionado com sucesso')
       // Faça o que quiser com o novo usuário aqui
     } catch (error) {
-      console.error("Erro ao criar usuário:", error);
+     toast.error('Erro ao adicionar usuario, Porfavor tenten novamenta mais tarde')
     }
   }
 }
