@@ -19,6 +19,7 @@ function GameCard({ data }: MovieCardProps) {
   const dateObject = new Date(data.release_date);
   const year = dateObject.getFullYear();
   const [isLiked, setIsLiked] = useState(false);
+  const [rating, setRating] = useState<number >(0);
 
   let gameData = data
   const { oppenModal } = useModal();
@@ -45,8 +46,11 @@ function GameCard({ data }: MovieCardProps) {
     else{
       dbService.updateUserFavorites(user.user.uid,data.id)
       setIsLiked((like) => !like)
+
+      
     }
   }
+
 
   return (
     <>
@@ -61,7 +65,7 @@ function GameCard({ data }: MovieCardProps) {
           </S.CardDetails>
           <S.CardRatingContainer>
             <S.CardRate>
-              <StarRate />
+              <StarRate gameId={data.id} />
               <S.Rate>4.6</S.Rate>
               <S.NumberOfRates>(86)</S.NumberOfRates>
             </S.CardRate>
