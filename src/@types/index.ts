@@ -1,5 +1,5 @@
 export type ApiData = {
-    id: number;
+    id: string;
     developer: string;
     freetogame_profile_url: string;
     game_url: string;

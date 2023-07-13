@@ -15,10 +15,28 @@ import Footer from "../../components/Footer";
 import { Input } from "../../components/Inputs/Input";
 import { Select } from "../../components/Inputs/Select";
 import useFetch from "../../hooks/useFetch";
+import { useAuth } from "../../hooks/useAuth";
+import dbService from "../../services/dbService";
 
+type Favorito = {
+  gameId: string;
+};
+
+type GameRated = {
+  gameId: string;
+  rate: number;
+};
+
+type UserData = {
+  userId: string;
+  userName: string;
+  favorites: Favorito[];
+  gamesrated: GameRated[];
+};
 function Favoritos() {
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
-
+  
+  const { user } = useAuth();
   const {
     isLoading,
     error: apiError,
@@ -30,6 +48,7 @@ function Favoritos() {
     datafiltred: filtredMovies,
     setBusca,
     setGenero,
+    genero
   } = useFilter(apiData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -44,6 +63,24 @@ function Favoritos() {
     const generosUnicos = ["Todos", ...generos];
     setGenerosUnicos(generosUnicos);
   }, [apiData]);
+
+  const favoritosPromise = dbService.getUser(user ? user?.user.uid : "");
+
+  const [favoritos, setFavoritos] = useState<Favorito[]>([]);
+
+  useEffect(() => {
+    favoritosPromise.then((data) => {
+      if (data) {
+        setFavoritos(data.favorites);
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [favoritos]);
+
+  const jogosFavoritados =
+  favoritos && favoritos.length > 0
+    ? filtredMovies.filter((item) => favoritos.some((favorite) => favorite.gameId === item.id))
+    : filtredMovies;
 
   return (
     <>
@@ -64,6 +101,7 @@ function Favoritos() {
             <Select
               disabled={isLoading}
               data={generosUnicos}
+              value={genero}
               onChange={handleSelectChange}
               defaultValue={"Selecione um genero"}
             />
@@ -83,13 +121,13 @@ function Favoritos() {
             {!apiError && (
               <>
                 <GameContainer>
-                  {filtredMovies.length > 0 &&
-                    filtredMovies.map((data) => {
+                  {jogosFavoritados.length > 0 &&
+                    jogosFavoritados.map((data) => {
                       return <GameCard key={data.id} data={data}></GameCard>;
                     })}
                 </GameContainer>
                 {/* se o array estiver vazio e nao estiver em loading */}
-                {!isLoading && filtredMovies.length == 0 && (
+                {!isLoading && jogosFavoritados.length == 0 && (
                   <ErrorMessage
                     message={
                       "OOPS, Esse jogo não existe pesquise por mais jogos"

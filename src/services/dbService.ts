@@ -1,7 +1,13 @@
-import { addDoc, collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import {
+  
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../configs/firebaseConfig";
-
-
+import { toast } from "react-toastify";
 
 type Favorito = {
   gameId: string;
@@ -15,36 +21,82 @@ type GameRated = {
 type UserData = {
   userId: string;
   userName: string;
-  favoritos: Favorito[];
+  favorites: Favorito[];
   gamesrated: GameRated[];
 };
 
 class dbService {
   useCollection = collection(db, "users");
 
-  async getUserById({ userId = "" }: { userId: string }) {
-    const data = await getDocs(this.useCollection);
-    const users: UserData[] = data.docs.map((doc) => {
-      const { userId, userName, favoritos, gamesrated } = doc.data();
-      return {
-        userId,
-        userName,
-        favoritos: favoritos || [],
-        gamesrated: gamesrated || [],
-      };
-    });
+  async getUser(userId: string): Promise<UserData | null> {
+    const userRef = doc(db, "users", userId);
 
-    const userbyid: UserData[] = users.filter((user) => user.userId === userId);
-    return userbyid[0].favoritos.map;
+    try {
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const userData = userSnap.data() as UserData;
+        console.log("Usuário encontrado:", userData);
+        return userData;
+      } else {
+        console.log("Usuário não encontrado!");
+        return null;
+      }
+    } catch (error) {
+      console.error("Erro ao recuperar usuário:", error);
+      return null
+    }
   }
+  
+  async updateUserFavorites(userId: string, newFavoriteId: string) {
+    const userRef = doc(db, "users", userId);
+
+    try {
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        const favorites = userData.favorites || [];
+
+        const existingFavorite = favorites.find(
+          (favorite: { gameId: string }) => favorite.gameId === newFavoriteId
+        );
+
+        if (existingFavorite) {
+          // Se o novo favorito já existe, remove-o do array de favoritos
+          const updatedFavorites = favorites.filter(
+            (favorite: { gameId: string }) => favorite.gameId !== newFavoriteId
+          );
+          toast.success("Favorito removido!");
+          await updateDoc(userRef, {
+            favorites: updatedFavorites,
+          });
+        } else {
+          // Caso contrário, adiciona o novo favorito ao array de favoritos
+          const newFavorite = { gameId: newFavoriteId };
+          const updatedFavorites = [...favorites, newFavorite];
+          toast.success("Favorito adicionado!");
+          await updateDoc(userRef, {
+            favorites: updatedFavorites,
+          });
+        }
+      } else {
+        console.log("Usuário não encontrado!");
+      }
+    } catch (error) {
+      toast.error(`Tivemos Problemas ao atualizar os favoritos : ${error}`, );
+    }
+  }
+
+  
+
   async newUser(userId: string, name: string) {
-    await addDoc(this.useCollection, { userId, name, favoritos: [{}],gamesRated:[{}] });
-  }
-  async addFavoritos(gameId:string,){
-    await updateDoc(doc(db,'users','asdasd'),{
-        favoritos:[gameId]
-
-    })
+    try {
+      const userRef = doc(db, "users", userId);
+      await setDoc(userRef, { name });
+      toast.success('Usuario adicionado com sucesso')
+      // Faça o que quiser com o novo usuário aqui
+    } catch (error) {
+      console.error("Erro ao criar usuário:", error);
+    }
   }
 }
 

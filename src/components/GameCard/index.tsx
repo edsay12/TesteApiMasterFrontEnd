@@ -1,14 +1,16 @@
+/* eslint-disable prefer-const */
 import { ApiData } from "../../@types";
 import * as S from "./style";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 import StarRate from "../StarRate/DinamicRate";
 import { useAuth } from "../../hooks/useAuth";
 import { useModal } from "../../hooks/useModal";
 import { toast } from "react-toastify";
+import dbService from "../../services/dbService";
 
 type MovieCardProps = {
   data: ApiData;
@@ -18,16 +20,30 @@ function GameCard({ data }: MovieCardProps) {
   const year = dateObject.getFullYear();
   const [isLiked, setIsLiked] = useState(false);
 
-
+  let gameData = data
   const { oppenModal } = useModal();
 
   const { user } = useAuth();
+
+  useEffect(()=>{
+      if(user){
+        dbService.getUser(user.user.uid).then((data)=>{
+          data?.favorites.map((game)=>{
+            if(game.gameId == gameData.id){
+              setIsLiked(true)
+            }
+          })
+        })
+      }
+  },[])
+
   function handleLiked() {
     if (!user) {
       oppenModal()
       
     }
     else{
+      dbService.updateUserFavorites(user.user.uid,data.id)
       setIsLiked((like) => !like)
     }
   }

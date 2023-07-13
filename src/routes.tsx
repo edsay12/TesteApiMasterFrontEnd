@@ -25,7 +25,7 @@ function PrivateRoute({
 
   }
 
-  return isAuthenticate ? children : <Navigate to={redirectTo} />;
+  return isAuthenticate ? children : <Navigate to={redirectTo} /> ;
 }
 
 function PrivateLogin({
@@ -37,7 +37,7 @@ function PrivateLogin({
 }) {
   const { user } = useAuth();
   const isAuthenticate = !user ? false : true;
-  console.log('auth',user?.providerId)
+
 
   return !isAuthenticate ? children : <Navigate to={redirectTo} />;
 }

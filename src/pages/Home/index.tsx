@@ -20,20 +20,7 @@ import dbService from "../../services/dbService";
 
 function Home() {
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
-  const { user } = useAuth();
-
-  useEffect(() => {
-    const getuser = async () =>{
-      if (user) {
-        
-        console.log('user', (await dbService.getUserById({userId:user.uid})))
-      }
-
-    }
-    getuser()
-    
-  }, [user]);
-
+  
   const {
     isLoading,
     error: apiError,
@@ -45,6 +32,7 @@ function Home() {
     datafiltred: filtredMovies,
     setBusca,
     setGenero,
+    genero
   } = useFilter(apiData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -80,6 +68,7 @@ function Home() {
               disabled={isLoading}
               data={generosUnicos}
               onChange={handleSelectChange}
+              value={genero}
               defaultValue={"Selecione um genero"}
             />
             <button type="button">Pesquisar</button>{" "}

@@ -1,9 +1,13 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import AuthService from "../../services/AuthService";
 import { User } from "firebase/auth";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-export type UserProps = User;
+export type UserProps = {
+  user: User
+  
+};
 
 type AuthContextProps = {
   user: UserProps | null;
@@ -19,18 +23,18 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserProps | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  useState(() => {
+  useEffect(() => {
     const user = localStorage.getItem("sessionUser");
     if (user) [setUser(JSON.parse(user))];
-    
   }, []);
 
   const login = ({ email, senha }: UserLogin): void => {
     AuthService.login(email, senha)
       .then((user) => {
         localStorage.setItem("sessionUser", JSON.stringify(user));
-        setUser(user.user);
+        setUser(user);
       })
       .catch((err) => {
         console.log(err);
@@ -41,8 +45,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     AuthService.logout().then(() => {
       localStorage.removeItem("sessionUser");
+      navigate("/");
       setUser(null);
-      toast.success("Voce nao esta mais logado ! ");
     });
   };
 
