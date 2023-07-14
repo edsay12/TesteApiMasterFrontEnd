@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { ApiData } from "../@types";
-import dbService from "../services/dbService";
-import { useAuth } from "./useAuth";
 
 function useFilter(data: ApiData[] = []) {
   const [busca, setBusca] = useState<string>("");

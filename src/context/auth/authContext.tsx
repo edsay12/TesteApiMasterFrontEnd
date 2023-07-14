@@ -28,8 +28,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true)
     const user = localStorage.getItem("sessionUser");
     if (user) [setUser(JSON.parse(user))];
+    setIsLoading(false)
   }, []);
 
   const login = ({ email, senha }: UserLogin): void => {

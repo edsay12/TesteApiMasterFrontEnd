@@ -17,6 +17,7 @@ import { Select } from "../../components/Inputs/Select";
 import useFetch from "../../hooks/useFetch";
 import { useAuth } from "../../hooks/useAuth";
 import dbService from "../../services/dbService";
+import { TbSortDescending2, TbSortAscending2 } from "react-icons/tb";
 
 type Favorito = {
   gameId: string;
@@ -33,10 +34,22 @@ type UserData = {
   favorites: Favorito[];
   gamesrated: GameRated[];
 };
+type Order = "asc" | "desc";
 function Favoritos() {
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
-  
   const { user } = useAuth();
+  const dbUserPromise = dbService.getUser(user ? user?.user.uid : "");
+  const [favoritos, setFavoritos] = useState<Favorito[]>([]);
+  const [rates, setRates] = useState<GameRated[]>();
+  const [currentOrder, setCurrentOrder] = useState<Order>("asc");
+
+  const currentOrderToggle = () => {
+    console.log(currentOrder);
+    setCurrentOrder((current) => {
+      return current === "asc" ? "desc" : "asc";
+    });
+  };
+
   const {
     isLoading,
     error: apiError,
@@ -48,7 +61,7 @@ function Favoritos() {
     datafiltred: filtredMovies,
     setBusca,
     setGenero,
-    genero
+    genero,
   } = useFilter(apiData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -64,23 +77,79 @@ function Favoritos() {
     setGenerosUnicos(generosUnicos);
   }, [apiData]);
 
-  const favoritosPromise = dbService.getUser(user ? user?.user.uid : "");
-
-  const [favoritos, setFavoritos] = useState<Favorito[]>([]);
-
   useEffect(() => {
-    favoritosPromise.then((data) => {
+    dbUserPromise.then((data) => {
       if (data) {
         setFavoritos(data.favorites);
+        setRates(data.gamesRate);
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [favoritos]);
 
+ 
+
+  // pego os jogos favoritos e adiciono a propiedade rate
   const jogosFavoritados =
-  favoritos && favoritos.length > 0
-    ? filtredMovies.filter((item) => favoritos.some((favorite) => favorite.gameId === item.id))
-    : filtredMovies;
+    favoritos && favoritos.length > 0
+      ? filtredMovies
+          .filter((item) =>
+            favoritos.some((favorite) => favorite.gameId === item.id)
+          )
+          .map((jogoFavorito) => {
+            const rateEncontrado =
+              rates && rates.find((rate) => rate.gameId === jogoFavorito.id);
+            return {
+              ...jogoFavorito,
+              rate: rateEncontrado ? rateEncontrado.rate : null,
+            };
+          })
+      : filtredMovies;
+
+  const ordenarJogos = (jogos) => {
+    if (currentOrder === "asc") {
+      return jogos.sort((a, b) => a.rate - b.rate);
+    } else {
+      return jogos.sort((a, b) => b.rate - a.rate);
+    }
+  };
+
+  const jogosOrdenados = ordenarJogos(jogosFavoritados)
+  // console.log(jogosFavoritadosComRate)
+
+  // const filterGames = (sortOrder: Order) => {
+  //   const filteredGames = jogosFavoritados.map((item) => {
+  //     const matchingRate =
+  //       rates && rates.find((rate) => rate.gameId === item.id);
+  //     const rate = matchingRate ? matchingRate.rate : 0;
+  //     return {
+  //       gameId: item.id,
+  //       rate,
+  //     };
+  //   });
+
+  //   const sortedGames = [...filteredGames].sort((a, b) => {
+  //     if (sortOrder === "asc") {
+  //       return a.rate - b.rate;
+  //     } else if (sortOrder === "desc") {
+  //       return b.rate - a.rate;
+  //     }
+  //     return 0;
+  //   });
+
+  //   const GamesFiltred =
+  //   sortedGames && sortedGames.length > 0
+  //     ? jogosFavoritados.filter((item) =>
+  //         favoritos.some((favorite) => favorite.gameId === item.id)
+  //       )
+  //     : filtredMovies;
+
+  //   return GamesFiltred
+  // };
+
+  // useEffect(() => {
+  //   filterGames(currentOrder);
+  // }, [currentOrder]);
 
   return (
     <>
@@ -105,8 +174,18 @@ function Favoritos() {
               onChange={handleSelectChange}
               defaultValue={"Selecione um genero"}
             />
-            <button type="button">Pesquisar</button>{" "}
             {/* Botão visual apenas 😁*/}
+            <S.OrderFilterContainer onClick={() => currentOrderToggle()}>
+              <S.OrderFilterIco>
+                {currentOrder === "asc" ? (
+                  <TbSortAscending2></TbSortAscending2>
+                ) : (
+                  <TbSortDescending2></TbSortDescending2>
+                )}
+              </S.OrderFilterIco>
+              <S.OrderFilterText> Ordem</S.OrderFilterText>
+            </S.OrderFilterContainer>
+            <button type="button">Pesquisar</button>{" "}
           </InputArea>
         </Banner>
 
@@ -121,13 +200,13 @@ function Favoritos() {
             {!apiError && (
               <>
                 <GameContainer>
-                  {jogosFavoritados.length > 0 &&
-                    jogosFavoritados.map((data) => {
+                  {jogosOrdenados.length > 0 &&
+                    jogosOrdenados.map((data) => {
                       return <GameCard key={data.id} data={data}></GameCard>;
                     })}
                 </GameContainer>
                 {/* se o array estiver vazio e nao estiver em loading */}
-                {!isLoading && jogosFavoritados.length == 0 && (
+                {!isLoading && jogosOrdenados.length == 0 && (
                   <ErrorMessage
                     message={
                       "OOPS, Esse jogo não existe pesquise por mais jogos"

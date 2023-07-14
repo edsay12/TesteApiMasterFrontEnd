@@ -17,9 +17,10 @@ function PrivateRoute({
   children: ReactNode;
   redirectTo: string;
 }) {
-  const { user } = useAuth();
+  const { user} = useAuth();
   const isAuthenticate = user ? true : false;
   const {oppenModal } = useModal()
+  
   if(!user){
     oppenModal()
 

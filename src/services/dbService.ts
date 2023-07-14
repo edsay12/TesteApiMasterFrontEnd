@@ -123,8 +123,6 @@ class dbService {
     try {
       const userRef = doc(db, "users", userId);
       await setDoc(userRef, { name });
-      toast.success('Usuario adicionado com sucesso')
-      // Faça o que quiser com o novo usuário aqui
     } catch (error) {
      toast.error('Erro ao adicionar usuario, Porfavor tenten novamenta mais tarde')
     }
