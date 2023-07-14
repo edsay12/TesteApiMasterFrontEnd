@@ -15,8 +15,6 @@ import Footer from "../../components/Footer";
 import { Input } from "../../components/Inputs/Input";
 import { Select } from "../../components/Inputs/Select";
 import useFetch from "../../hooks/useFetch";
-import { useAuth } from "../../hooks/useAuth";
-import dbService from "../../services/dbService";
 
 function Home() {
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
@@ -89,7 +87,7 @@ function Home() {
                 <GameContainer>
                   {filtredMovies.length > 0 &&
                     filtredMovies.map((data) => {
-                      return <GameCard key={data.id} data={data}></GameCard>;
+                      return <GameCard key={data.id} data={data} ></GameCard>;
                     })}
                 </GameContainer>
                 {/* se o array estiver vazio e nao estiver em loading */}

@@ -22,7 +22,7 @@ type UserData = {
   userId: string;
   userName: string;
   favorites: Favorito[];
-  gamesrated: GameRated[];
+  gamesRate: GameRated[];
 };
 
 class dbService {

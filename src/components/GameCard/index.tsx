@@ -5,11 +5,9 @@ import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
-
 import StarRate from "../StarRate/DinamicRate";
 import { useAuth } from "../../hooks/useAuth";
 import { useModal } from "../../hooks/useModal";
-import { toast } from "react-toastify";
 import dbService from "../../services/dbService";
 
 type MovieCardProps = {
@@ -19,38 +17,35 @@ function GameCard({ data }: MovieCardProps) {
   const dateObject = new Date(data.release_date);
   const year = dateObject.getFullYear();
   const [isLiked, setIsLiked] = useState(false);
-  const [rating, setRating] = useState<number >(0);
+  const [rate, setRate] = useState<number>(0);
 
-  let gameData = data
+  let gameData = data;
   const { oppenModal } = useModal();
 
   const { user } = useAuth();
 
-  useEffect(()=>{
-      if(user){
-        dbService.getUser(user.user.uid).then((data)=>{
-          data?.favorites.map((game)=>{
-            if(game.gameId == gameData.id){
-              setIsLiked(true)
+  useEffect(() => {
+    if (user) {
+      dbService.getUser(user.user.uid).then((data) => {
+        if (data?.favorites) {
+          data?.favorites.map((game) => {
+            if (game.gameId == gameData.id) {
+              setIsLiked(true);
             }
-          })
-        })
-      }
-  },[])
+          });
+        }
+      });
+    }
+  }, []);
 
   function handleLiked() {
     if (!user) {
-      oppenModal()
-      
-    }
-    else{
-      dbService.updateUserFavorites(user.user.uid,data.id)
-      setIsLiked((like) => !like)
-
-      
+      oppenModal();
+    } else {
+      dbService.updateUserFavorites(user.user.uid, data.id);
+      setIsLiked((like) => !like);
     }
   }
-
 
   return (
     <>
@@ -65,7 +60,7 @@ function GameCard({ data }: MovieCardProps) {
           </S.CardDetails>
           <S.CardRatingContainer>
             <S.CardRate>
-              <StarRate gameId={data.id} />
+              <StarRate gameId={data.id} data={data} />
               <S.Rate>4.6</S.Rate>
               <S.NumberOfRates>(86)</S.NumberOfRates>
             </S.CardRate>
