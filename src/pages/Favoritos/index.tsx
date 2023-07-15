@@ -103,7 +103,7 @@ function Favoritos() {
               rate: rateEncontrado ? rateEncontrado.rate : null,
             };
           })
-      : filtredMovies as JogosFavoritadosProps[];
+      :[];
 
       const ordenarJogos = (jogos: JogosFavoritadosProps[]) => {
         if (currentOrder === "asc") {
@@ -182,7 +182,7 @@ function Favoritos() {
                 {!isLoading && jogosOrdenados.length == 0 && (
                   <ErrorMessage
                     message={
-                      "OOPS, Esse jogo não existe pesquise por mais jogos"
+                      "OOPS, parece que voce não tem nenhum favorito ou o jogo pesquisado não existe"
                     }
                   />
                 )}

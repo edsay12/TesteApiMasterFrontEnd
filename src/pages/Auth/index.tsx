@@ -9,9 +9,8 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useState } from "react";
 
-
 import { useAuth } from "../../hooks/useAuth";
-
+import { toast } from "react-toastify";
 
 function Auth() {
   const [variant, setVariante] = useState<VarientType>("LOGIN");
@@ -67,7 +66,7 @@ function Auth() {
     if (variant === "LOGIN") {
       login(dados);
     } else if (variant === "REGISTER") {
-      createNewUser(dados)
+      createNewUser(dados);
     }
     reset()
   };
@@ -111,7 +110,7 @@ function Auth() {
               helperText={errors.senha?.message}
               {...register("senha")}
             ></Input>
-            <Button isLoading={ isLoadingAuth}>
+            <Button isLoading={isLoadingAuth}>
               {variant === "REGISTER" ? <p>Cadastrar</p> : <p>Login</p>}
             </Button>
           </S.Form>

@@ -6,8 +6,13 @@ type ButtonProps = {
   isLoading?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-function Button({children,isLoading = false,...rest}: ButtonProps) {
-  return <S.Button isDisable={isLoading} {...rest} disabled={isLoading}>{children}</S.Button>;
+function Button({ children, isLoading = false, ...rest }: ButtonProps) {
+  return (
+    <S.Button isDisable={isLoading} {...rest} disabled={isLoading}>
+      {isLoading && <p>Caregando...</p>}
+      {!isLoading && children}
+    </S.Button>
+  );
 }
 
 export default Button;
