@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useState } from "react";
 
 import { useAuth } from "../../hooks/useAuth";
-import { toast } from "react-toastify";
+
 
 function Auth() {
   const [variant, setVariante] = useState<VarientType>("LOGIN");
