@@ -19,7 +19,7 @@ function PrivateRoute({
 }) {
   const { user,isLoadingAuth} = useAuth();
   const isAuthenticate = (!user  && isLoadingAuth === false ) ? false : true;
-  console.log(isAuthenticate,isLoadingAuth)
+  
   const {oppenModal } = useModal()
   
   if(!user  && isLoadingAuth === false){

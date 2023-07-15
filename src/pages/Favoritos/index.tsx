@@ -40,7 +40,7 @@ function Favoritos() {
   const [currentOrder, setCurrentOrder] = useState<Order>("desc");
 
   const currentOrderToggle = () => {
-    console.log(currentOrder);
+  
     setCurrentOrder((current) => {
       return current === "asc" ? "desc" : "asc";
     });

@@ -1,11 +1,4 @@
-import {
-  
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../configs/firebaseConfig";
 import { toast } from "react-toastify";
 
@@ -29,27 +22,26 @@ class dbService {
   useCollection = collection(db, "users");
 
   async getUser(userId: string): Promise<UserData | null> {
-    const userRef = doc(db, "users", userId);
-
     try {
+      const userRef = doc(db, "users", userId);
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
         const userData = userSnap.data() as UserData;
         return userData;
       } else {
         console.log("Usuário não encontrado!");
+
         return null;
       }
     } catch (error) {
       console.error("Erro ao recuperar usuário:", error);
-      return null
+      return null;
     }
   }
-  
-  async updateUserFavorites(userId: string, newFavoriteId: string) {
-    const userRef = doc(db, "users", userId);
 
+  async updateUserFavorites(userId: string, newFavoriteId: string) {
     try {
+      const userRef = doc(db, "users", userId);
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
         const userData = userSnap.data();
@@ -81,25 +73,24 @@ class dbService {
         console.log("Usuário não encontrado!");
       }
     } catch (error) {
-      toast.error(`Tivemos Problemas ao atualizar os favoritos : ${error}`, );
+      toast.error(`Tivemos Problemas ao atualizar os favoritos : ${error}`);
     }
   }
 
   async addGameRate(userId: string, gameId: string, rate: number) {
-    const userRef = doc(db, "users", userId);
-  
     try {
+      const userRef = doc(db, "users", userId);
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
         const userData = userSnap.data();
         const gamesRate = userData.gamesRate || [];
-  
+
         const existingGameRate = gamesRate.find(
           (gameRate: { gameId: string }) => gameRate.gameId === gameId
         );
-  
+
         if (existingGameRate) {
-          toast('O jogo ja foi avaliado !')
+          toast("O jogo ja foi avaliado !");
         } else {
           // Adiciona o novo jogo e sua avaliação ao array de gamesRate
           const newGameRate = { gameId, rate };
@@ -117,14 +108,14 @@ class dbService {
     }
   }
 
-  
-
   async newUser(userId: string, name: string) {
     try {
       const userRef = doc(db, "users", userId);
       await setDoc(userRef, { name });
     } catch (error) {
-     toast.error('Erro ao adicionar usuario, Porfavor tenten novamenta mais tarde')
+      toast.error(
+        "Erro ao adicionar usuario, Porfavor tenten novamenta mais tarde"
+      );
     }
   }
 }
