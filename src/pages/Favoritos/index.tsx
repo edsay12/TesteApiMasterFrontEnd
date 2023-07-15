@@ -34,6 +34,9 @@ type UserData = {
   favorites: Favorito[];
   gamesrated: GameRated[];
 };
+
+type JogosFavoritadosProps = ApiData & { rate: number | null };
+
 type Order = "asc" | "desc";
 function Favoritos() {
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
@@ -41,7 +44,7 @@ function Favoritos() {
   const dbUserPromise = dbService.getUser(user ? user?.user.uid : "");
   const [favoritos, setFavoritos] = useState<Favorito[]>([]);
   const [rates, setRates] = useState<GameRated[]>();
-  const [currentOrder, setCurrentOrder] = useState<Order>("asc");
+  const [currentOrder, setCurrentOrder] = useState<Order>("desc");
 
   const currentOrderToggle = () => {
     console.log(currentOrder);
@@ -90,7 +93,8 @@ function Favoritos() {
  
 
   // pego os jogos favoritos e adiciono a propiedade rate
-  const jogosFavoritados =
+  
+  const jogosFavoritados:JogosFavoritadosProps[] =
     favoritos && favoritos.length > 0
       ? filtredMovies
           .filter((item) =>
@@ -104,52 +108,26 @@ function Favoritos() {
               rate: rateEncontrado ? rateEncontrado.rate : null,
             };
           })
-      : filtredMovies;
+      : filtredMovies as JogosFavoritadosProps[];
 
-  const ordenarJogos = (jogos) => {
-    if (currentOrder === "asc") {
-      return jogos.sort((a, b) => a.rate - b.rate);
-    } else {
-      return jogos.sort((a, b) => b.rate - a.rate);
-    }
-  };
+      const ordenarJogos = (jogos: JogosFavoritadosProps[]) => {
+        if (currentOrder === "asc") {
+          return jogos.sort((a, b) => {
+            if (a.rate === null) return -1;
+            if (b.rate === null) return 1;
+            return a.rate - b.rate;
+          });
+        } else {
+          return jogos.sort((a, b) => {
+            if (a.rate === null) return 1;
+            if (b.rate === null) return -1;
+            return b.rate - a.rate;
+          });
+        }
+      };
 
   const jogosOrdenados = ordenarJogos(jogosFavoritados)
-  // console.log(jogosFavoritadosComRate)
-
-  // const filterGames = (sortOrder: Order) => {
-  //   const filteredGames = jogosFavoritados.map((item) => {
-  //     const matchingRate =
-  //       rates && rates.find((rate) => rate.gameId === item.id);
-  //     const rate = matchingRate ? matchingRate.rate : 0;
-  //     return {
-  //       gameId: item.id,
-  //       rate,
-  //     };
-  //   });
-
-  //   const sortedGames = [...filteredGames].sort((a, b) => {
-  //     if (sortOrder === "asc") {
-  //       return a.rate - b.rate;
-  //     } else if (sortOrder === "desc") {
-  //       return b.rate - a.rate;
-  //     }
-  //     return 0;
-  //   });
-
-  //   const GamesFiltred =
-  //   sortedGames && sortedGames.length > 0
-  //     ? jogosFavoritados.filter((item) =>
-  //         favoritos.some((favorite) => favorite.gameId === item.id)
-  //       )
-  //     : filtredMovies;
-
-  //   return GamesFiltred
-  // };
-
-  // useEffect(() => {
-  //   filterGames(currentOrder);
-  // }, [currentOrder]);
+  
 
   return (
     <>
