@@ -78,6 +78,8 @@ function Favoritos() {
       if (data) {
         setFavoritos(data.favorites);
         setRates(data.gamesRate);
+      }else{
+        setFavoritos([])
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
