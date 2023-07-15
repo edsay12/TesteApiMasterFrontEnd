@@ -18,7 +18,7 @@ function PrivateRoute({
   redirectTo: string;
 }) {
   const { user,isLoadingAuth} = useAuth();
-  const isAuthenticate = user  && isLoadingAuth === false  ? true : false;
+  const isAuthenticate = (!user  && isLoadingAuth === false ) ? false : true;
   console.log(isAuthenticate,isLoadingAuth)
   const {oppenModal } = useModal()
   

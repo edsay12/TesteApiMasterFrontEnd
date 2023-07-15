@@ -17,7 +17,7 @@ function GameCard({ data }: MovieCardProps) {
   const dateObject = new Date(data.release_date);
   const year = dateObject.getFullYear();
   const [isLiked, setIsLiked] = useState(false);
-  const [rate, setRate] = useState<number>(0);
+  
 
   let gameData = data;
   const { oppenModal } = useModal();
