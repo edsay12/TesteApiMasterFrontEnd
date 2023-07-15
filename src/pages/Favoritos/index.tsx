@@ -28,8 +28,6 @@ type GameRated = {
   rate: number;
 };
 
-
-
 type JogosFavoritadosProps = ApiData & { rate: number | null };
 
 type Order = "asc" | "desc";

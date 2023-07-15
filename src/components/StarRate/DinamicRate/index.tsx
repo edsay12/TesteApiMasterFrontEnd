@@ -42,7 +42,7 @@ function StarRate({ gameId, data }: { gameId: string; data: ApiData }) {
 
   return (
     <S.StartRate>
-      {[...Array(5)].map((_star, index) => {
+      {[...Array(4)].map((_star, index) => {
         const starValue = index + 1;
         return (
           <label key={index}>

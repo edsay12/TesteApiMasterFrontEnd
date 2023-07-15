@@ -4,6 +4,7 @@ import { User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import dbService from "../../services/dbService";
 
+
 export type UserProps = {
   user: User;
 };
@@ -29,6 +30,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     async function getUser() {
+      // colocar no local storage nao e a melhor abordagem 
+      // (Usei o firebase auth porem, tive alguns problemas)
       setIsLoading(true);
       const user = await localStorage.getItem("sessionUser");
       if (user) [setUser(JSON.parse(user))];

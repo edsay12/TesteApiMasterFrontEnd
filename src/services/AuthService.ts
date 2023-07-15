@@ -29,7 +29,7 @@ class AuthService {
         return data;
       })
       .catch((error) => {
-        toast.error('Email ja cadastrado.')
+        toast.error('Email ja cadastrado.') // um feedback um tanto quanto estranho haha
         return Promise.reject(error);
       });
   }
