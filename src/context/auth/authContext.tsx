@@ -24,14 +24,17 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserProps | null>(null);
-  const [isLoadingAuth, setIsLoading] = useState(false);
+  const [isLoadingAuth, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoading(true)
-    const user = localStorage.getItem("sessionUser");
-    if (user) [setUser(JSON.parse(user))];
-    setIsLoading(false)
+    async function getUser() {
+      setIsLoading(true);
+      const user = await localStorage.getItem("sessionUser");
+      if (user) [setUser(JSON.parse(user))];
+      setIsLoading(false);
+    }
+    getUser()
   }, []);
 
   const login = ({ email, senha }: UserLogin): void => {

@@ -28,12 +28,7 @@ type GameRated = {
   rate: number;
 };
 
-type UserData = {
-  userId: string;
-  userName: string;
-  favorites: Favorito[];
-  gamesrated: GameRated[];
-};
+
 
 type JogosFavoritadosProps = ApiData & { rate: number | null };
 

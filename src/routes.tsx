@@ -17,11 +17,12 @@ function PrivateRoute({
   children: ReactNode;
   redirectTo: string;
 }) {
-  const { user} = useAuth();
-  const isAuthenticate = user ? true : false;
+  const { user,isLoadingAuth} = useAuth();
+  const isAuthenticate = user  && isLoadingAuth === false  ? true : false;
+  console.log(isAuthenticate,isLoadingAuth)
   const {oppenModal } = useModal()
   
-  if(!user){
+  if(!user  && isLoadingAuth === false){
     oppenModal()
 
   }

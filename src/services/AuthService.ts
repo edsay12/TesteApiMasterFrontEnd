@@ -39,7 +39,7 @@ class AuthService {
         if (user) {
           resolve(user);
         } else {
-          reject("");
+          reject(null);
         }
         
         

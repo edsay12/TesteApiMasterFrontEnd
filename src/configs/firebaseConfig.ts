@@ -14,7 +14,9 @@ export const firebaseApp = {
 };
 
 export const app = initializeApp(firebaseApp);
-export const auth = firebaseAuth.initializeAuth(app);
+export const auth = firebaseAuth.initializeAuth(app,{
+  persistence: firebaseAuth.browserLocalPersistence
+});
 
 export const db = getFirestore(app)
 
