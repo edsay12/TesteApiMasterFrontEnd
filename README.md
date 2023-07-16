@@ -23,7 +23,21 @@
 
 ## Imagens da Aplicação
 
-<img src="https://github.com/edsay12/TesteAppMasterFrontEnd/blob/main/public/projectImages/pagina_inicial.png" width="100%">
 
-<img src="https://github.com/edsay12/TesteAppMasterFrontEnd/blob/main/public/projectImages/pagina_inicial2.png" width="100%">
+- Tela de Login
+
+<img src="./public/projectImages/login.png" width="100%">
+
+- Tela inicial
+
+<img src="./public/projectImages/paginainicial.png" width="100%">
+
+<img src="./public/projectImages/paginainiciacards.png" width="100%">
+
+- Favoritos
+
+<img src="./public/projectImages/teladefavoritos.png" width="100%">
+
+<img src="./public/projectImages/teladefavoritoscards.png" width="100%">
+
 
