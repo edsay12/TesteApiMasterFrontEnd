@@ -11,3 +11,17 @@ export type ApiData = {
     thumbnail: string;
     title: string;
   };
+  export type Favorito = {
+    gameId: string;
+  };
+  
+  export type GameRated = {
+    gameId: string;
+    rate: number;
+  };
+  export type UserData = {
+    userId: string;
+    userName: string;
+    favorites: Favorito[];
+    gamesRate: GameRated[];
+  };

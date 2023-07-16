@@ -7,26 +7,47 @@ import dbService from "../../../services/dbService";
 import { ApiData } from "../../../@types";
 import { toast } from "react-toastify";
 
-function StarRate({ gameId, data }: { gameId: string; data: ApiData }) {
+type Favorito = {
+  gameId: string;
+};
+
+type GameRated = {
+  gameId: string;
+  rate: number;
+};
+type UserData = {
+  userId: string;
+  userName: string;
+  favorites: Favorito[];
+  gamesRate: GameRated[];
+};
+
+function StarRate({
+  gameId,
+  data: gameData,
+  dbUserData,
+}: {
+  gameId: string;
+  data: ApiData;
+  dbUserData: UserData | null;
+}) {
   const [rating, setRating] = useState<number>(0);
   const [hover, setHover] = useState<number>(0);
   const { user } = useAuth();
   const { oppenModal } = useModal();
+
   useEffect(() => {
     if (user) {
-      dbService.getUser(user.user.uid).then((data) => {
-        if (data?.gamesRate) {
-          data?.gamesRate.map((game) => {
-            if (game.gameId === gameData.id) {
-              setRating(game.rate);
-            }
-          });
-        }
-      });
+      if (dbUserData?.gamesRate) {
+        dbUserData?.gamesRate.map((game) => {
+          if (game.gameId === gameData.id) {
+            setRating(game.rate);
+          }
+        });
+      }
     }
-  }, []);
+  }, [user, gameData.id, dbUserData?.gamesRate]);
 
-  const gameData = data;
   function handleRate(starValue: number) {
     if (!user) {
       oppenModal();

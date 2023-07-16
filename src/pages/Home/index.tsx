@@ -9,28 +9,43 @@ import NavBar from "../../components/NavBar";
 import { Banner } from "../../components/Banner";
 import InputArea from "../../components/InputArea";
 import { Delimiter } from "../../components/delimiter";
-import { ApiData } from "../../@types";
+import { ApiData, UserData } from "../../@types";
 import useFilter from "../../hooks/userFilter";
 import Footer from "../../components/Footer";
 import { Input } from "../../components/Inputs/Input";
 import { Select } from "../../components/Inputs/Select";
 import useFetch from "../../hooks/useFetch";
+import { useAuth } from "../../hooks/useAuth";
+import dbService from "../../services/dbService";
 
 function Home() {
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
-  
+  const { user } = useAuth();
+  const [dbUserData, setDbUserData] = useState<UserData | null>(null)
+
   const {
     isLoading,
     error: apiError,
     data: apiData,
   } = useFetch<ApiData>("/data");
 
+  useEffect(()=>{
+    if(user){
+      dbService.getUser(user.user.uid, "card").then((data)=>{
+        setDbUserData(data)
+      })
+
+    }
+
+  },[user])
+  
+
   // filter
   const {
     datafiltred: filtredMovies,
     setBusca,
     setGenero,
-    genero
+    genero,
   } = useFilter(apiData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -87,7 +102,7 @@ function Home() {
                 <GameContainer>
                   {filtredMovies.length > 0 &&
                     filtredMovies.map((data) => {
-                      return <GameCard key={data.id} data={data} ></GameCard>;
+                      return <GameCard key={data.id} data={data} dbUserData={dbUserData}></GameCard>;
                     })}
                 </GameContainer>
                 {/* se o array estiver vazio e nao estiver em loading */}

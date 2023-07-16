@@ -9,7 +9,7 @@ import NavBar from "../../components/NavBar";
 import { Banner } from "../../components/Banner";
 import InputArea from "../../components/InputArea";
 import { Delimiter } from "../../components/delimiter";
-import { ApiData } from "../../@types";
+import { ApiData, UserData } from "../../@types";
 import useFilter from "../../hooks/userFilter";
 import Footer from "../../components/Footer";
 import { Input } from "../../components/Inputs/Input";
@@ -34,13 +34,12 @@ type Order = "asc" | "desc";
 function Favoritos() {
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
   const { user } = useAuth();
-  const dbUserPromise = dbService.getUser(user ? user?.user.uid : "");
+  const [dbUserData, setDbUserData] = useState<UserData | null>(null);
   const [favoritos, setFavoritos] = useState<Favorito[]>([]);
   const [rates, setRates] = useState<GameRated[]>();
   const [currentOrder, setCurrentOrder] = useState<Order>("desc");
 
   const currentOrderToggle = () => {
-  
     setCurrentOrder((current) => {
       return current === "asc" ? "desc" : "asc";
     });
@@ -51,6 +50,36 @@ function Favoritos() {
     error: apiError,
     data: apiData,
   } = useFetch<ApiData>("/data");
+
+  const handleGameUnfavorite = () => {
+    if (user) {
+      dbService.getUser(user.user.uid, "card").then((data) => {
+        if (data) {
+          setDbUserData(data);
+          if(data){
+            setFavoritos(data.favorites)
+
+          }
+         
+        }
+      });
+    }
+  };
+
+  // getUserData from db
+  useEffect(() => {
+    if (user) {
+      dbService.getUser(user.user.uid, "card").then((data) => {
+        if (data) {
+          setFavoritos(data.favorites);
+          setRates(data.gamesRate);
+          setDbUserData(data);
+        } else {
+          setFavoritos([]);
+        }
+      });
+    }
+  }, [user]);
 
   // filter
   const {
@@ -73,23 +102,9 @@ function Favoritos() {
     setGenerosUnicos(generosUnicos);
   }, [apiData]);
 
-  useEffect(() => {
-    dbUserPromise.then((data) => {
-      if (data) {
-        setFavoritos(data.favorites);
-        setRates(data.gamesRate);
-      }else{
-        setFavoritos([])
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [favoritos]);
-
- 
-
   // pego os jogos favoritos e adiciono a propiedade rate
-  
-  const jogosFavoritados:JogosFavoritadosProps[] =
+
+  const jogosFavoritados: JogosFavoritadosProps[] =
     favoritos && favoritos.length > 0
       ? filtredMovies
           .filter((item) =>
@@ -103,26 +118,25 @@ function Favoritos() {
               rate: rateEncontrado ? rateEncontrado.rate : null,
             };
           })
-      :[];
+      : [];
 
-      const ordenarJogos = (jogos: JogosFavoritadosProps[]) => {
-        if (currentOrder === "asc") {
-          return jogos.sort((a, b) => {
-            if (a.rate === null) return -1;
-            if (b.rate === null) return 1;
-            return a.rate - b.rate;
-          });
-        } else {
-          return jogos.sort((a, b) => {
-            if (a.rate === null) return 1;
-            if (b.rate === null) return -1;
-            return b.rate - a.rate;
-          });
-        }
-      };
+  const ordenarJogos = (jogos: JogosFavoritadosProps[]) => {
+    if (currentOrder === "asc") {
+      return jogos.sort((a, b) => {
+        if (a.rate === null) return -1;
+        if (b.rate === null) return 1;
+        return a.rate - b.rate;
+      });
+    } else {
+      return jogos.sort((a, b) => {
+        if (a.rate === null) return 1;
+        if (b.rate === null) return -1;
+        return b.rate - a.rate;
+      });
+    }
+  };
 
-  const jogosOrdenados = ordenarJogos(jogosFavoritados)
-  
+  const jogosOrdenados = ordenarJogos(jogosFavoritados);
 
   return (
     <>
@@ -175,7 +189,14 @@ function Favoritos() {
                 <GameContainer>
                   {jogosOrdenados.length > 0 &&
                     jogosOrdenados.map((data) => {
-                      return <GameCard key={data.id} data={data}></GameCard>;
+                      return (
+                        <GameCard
+                          key={data.id}
+                          data={data}
+                          dbUserData={dbUserData}
+                          unLikedAction={handleGameUnfavorite}
+                        />
+                      );
                     })}
                 </GameContainer>
                 {/* se o array estiver vazio e nao estiver em loading */}

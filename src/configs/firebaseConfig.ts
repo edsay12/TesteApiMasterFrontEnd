@@ -3,17 +3,18 @@ import * as firebaseAuth from "firebase/auth";
 
 import { getFirestore } from "firebase/firestore";
 
-export const firebaseApp = {
-  apiKey: "AIzaSyAfB7Q-BSJhTiwo9lNNkMR27TOhY4QvxQw",
-  authDomain: "gamerfinder-31a7b.firebaseapp.com",
-  projectId: "gamerfinder-31a7b",
-  storageBucket: "gamerfinder-31a7b.appspot.com",
-  messagingSenderId: "958760335301",
-  appId: "1:958760335301:web:926423aae61d8fbd2f3dac",
-  measurementId: "G-RY69Y5HC8Q",
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCIpEbSVPLuEbcuqLZckYJD-S-Nqxvrtl0",
+  authDomain: "reactapp-70a5c.firebaseapp.com",
+  projectId: "reactapp-70a5c",
+  storageBucket: "reactapp-70a5c.appspot.com",
+  messagingSenderId: "407842479903",
+  appId: "1:407842479903:web:6942f032729ae381189a2a"
 };
 
-export const app = initializeApp(firebaseApp);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 export const auth = firebaseAuth.initializeAuth(app,{
   persistence: firebaseAuth.browserLocalPersistence
 });

@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-import { ApiData } from "../../@types";
+import { ApiData, UserData } from "../../@types";
 import * as S from "./style";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
@@ -12,38 +12,48 @@ import dbService from "../../services/dbService";
 
 type MovieCardProps = {
   data: ApiData;
+  dbUserData: UserData | null;
+  unLikedAction?: () => void;
 };
-function GameCard({ data }: MovieCardProps) {
-  const dateObject = new Date(data.release_date);
+function GameCard({
+  data: gameData,
+  dbUserData,
+  unLikedAction,
+}: MovieCardProps) {
+  const dateObject = new Date(gameData.release_date);
   const year = dateObject.getFullYear();
   const [isLiked, setIsLiked] = useState(false);
-  
 
-  let gameData = data;
   const { oppenModal } = useModal();
 
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user) {
-      dbService.getUser(user.user.uid).then((data) => {
-        if (data?.favorites) {
-          data?.favorites.map((game) => {
-            if (game.gameId == gameData.id) {
+    const fetchData = async () => {
+      if (user) {
+        if (dbUserData?.favorites) {
+          dbUserData.favorites.forEach((game) => {
+            if (game.gameId === gameData.id) {
               setIsLiked(true);
             }
           });
         }
-      });
-    }
-  }, []);
+      }
+    };
+
+    fetchData();
+  }, [user, dbUserData?.favorites]);
 
   function handleLiked() {
     if (!user) {
       oppenModal();
     } else {
-      dbService.updateUserFavorites(user.user.uid, data.id);
-      setIsLiked((like) => !like);
+      dbService.updateUserFavorites(user.user.uid, gameData.id).then((data) => {
+        setIsLiked(false);
+        if (unLikedAction) {
+          unLikedAction();
+        }
+      });
     }
   }
 
@@ -51,16 +61,20 @@ function GameCard({ data }: MovieCardProps) {
     <>
       <S.MovieCard>
         <S.CardImageContainer>
-          <S.CardImage src={data.thumbnail} alt="Imagem de um game" />
+          <S.CardImage src={gameData.thumbnail} alt="Imagem de um game" />
         </S.CardImageContainer>
         <S.CardBotton>
-          <S.CardTitle key={data.id}>{data.title}</S.CardTitle>
+          <S.CardTitle key={gameData.id}>{gameData.title}</S.CardTitle>
           <S.CardDetails>
-            <p>{data.publisher}</p>-<p>{year}</p>-<p>{data.genre}</p>
+            <p>{gameData.publisher}</p>-<p>{year}</p>-<p>{gameData.genre}</p>
           </S.CardDetails>
           <S.CardRatingContainer>
             <S.CardRate>
-              <StarRate gameId={data.id} data={data} />
+              <StarRate
+                gameId={gameData.id}
+                data={gameData}
+                dbUserData={dbUserData}
+              />
               <S.Rate>4.6</S.Rate>
               <S.NumberOfRates>(86)</S.NumberOfRates>
             </S.CardRate>
@@ -76,8 +90,8 @@ function GameCard({ data }: MovieCardProps) {
             </S.LikeIcon>
           </S.CardRatingContainer>
 
-          <S.CardDescription>{data.short_description}</S.CardDescription>
-          <S.CardButton href={data.game_url} target="_blank">
+          <S.CardDescription>{gameData.short_description}</S.CardDescription>
+          <S.CardButton href={gameData.game_url} target="_blank">
             <p>Saiba mais</p>
             <span>
               <MdOutlineArrowForwardIos />

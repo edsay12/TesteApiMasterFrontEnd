@@ -21,12 +21,14 @@ type UserData = {
 class dbService {
   useCollection = collection(db, "users");
 
-  async getUser(userId: string): Promise<UserData | null> {
+  async getUser(userId: string,who:string): Promise<UserData | null> {
+    console.log(who)
     try {
       const userRef = doc(db, "users", userId);
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
         const userData = userSnap.data() as UserData;
+        // localStorage.setItem("dbUser", JSON.stringify(userData));
         return userData;
       } else {
         console.log("Usuário não encontrado!");

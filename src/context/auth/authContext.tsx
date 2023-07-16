@@ -29,6 +29,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+   
     async function getUser() {
       // colocar no local storage nao e a melhor abordagem 
       // (Usei o firebase auth porem, tive alguns problemas)
