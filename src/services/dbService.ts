@@ -21,8 +21,8 @@ type UserData = {
 class dbService {
   useCollection = collection(db, "users");
 
-  async getUser(userId: string,who:string): Promise<UserData | null> {
-    console.log(who)
+  async getUser(userId: string): Promise<UserData | null> {
+  
     try {
       const userRef = doc(db, "users", userId);
       const userSnap = await getDoc(userRef);
@@ -31,12 +31,14 @@ class dbService {
         // localStorage.setItem("dbUser", JSON.stringify(userData));
         return userData;
       } else {
-        console.log("Usuário não encontrado!");
+    
+        toast('Ouve um erro interno, volte novamente mais tarde')
 
         return null;
       }
     } catch (error) {
-      console.error("Erro ao recuperar usuário:", error);
+      // usuario não encontrado
+      toast('Ouve um erro interno, volte novamente mais tarde')
       return null;
     }
   }
@@ -54,7 +56,7 @@ class dbService {
         );
 
         if (existingFavorite) {
-          // Se o novo favorito já existe, remove-o do array de favoritos
+          // Se o novo favorito ja existe, remove-o do array de favoritos
           const updatedFavorites = favorites.filter(
             (favorite: { gameId: string }) => favorite.gameId !== newFavoriteId
           );
@@ -63,7 +65,7 @@ class dbService {
             favorites: updatedFavorites,
           });
         } else {
-          // Caso contrário, adiciona o novo favorito ao array de favoritos
+          // Caso contrario, adiciona o novo favorito ao array de favoritos
           const newFavorite = { gameId: newFavoriteId };
           const updatedFavorites = [...favorites, newFavorite];
           toast.success("Favorito adicionado!");
@@ -72,7 +74,8 @@ class dbService {
           });
         }
       } else {
-        console.log("Usuário não encontrado!");
+        // usuario não encontrado
+        toast('Ouve um erro interno, volte novamente mais tarde')
       }
     } catch (error) {
       toast.error(`Tivemos Problemas ao atualizar os favoritos : ${error}`);
@@ -103,7 +106,8 @@ class dbService {
           });
         }
       } else {
-        console.log("Usuário não encontrado!");
+        // usuario não encontrado
+        toast('Ouve um erro interno, volte novamente mais tarde')
       }
     } catch (error) {
       toast.error(`Tivemos Problemas ao atualizar os favoritos: ${error}`);

@@ -31,7 +31,7 @@ function Home() {
 
   useEffect(()=>{
     if(user){
-      dbService.getUser(user.user.uid, "card").then((data)=>{
+      dbService.getUser(user.user.uid).then((data)=>{
         setDbUserData(data)
       })
 

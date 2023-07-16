@@ -53,7 +53,7 @@ function Favoritos() {
 
   const handleGameUnfavorite = () => {
     if (user) {
-      dbService.getUser(user.user.uid, "card").then((data) => {
+      dbService.getUser(user.user.uid).then((data) => {
         if (data) {
           setDbUserData(data);
           if(data){
@@ -69,7 +69,7 @@ function Favoritos() {
   // getUserData from db
   useEffect(() => {
     if (user) {
-      dbService.getUser(user.user.uid, "card").then((data) => {
+      dbService.getUser(user.user.uid).then((data) => {
         if (data) {
           setFavoritos(data.favorites);
           setRates(data.gamesRate);
