@@ -48,8 +48,8 @@ function GameCard({
     if (!user) {
       oppenModal();
     } else {
-      dbService.updateUserFavorites(user.user.uid, gameData.id).then((data) => {
-        setIsLiked(false);
+      dbService.updateUserFavorites(user.user.uid, gameData.id).then(() => {
+        setIsLiked((isliked)=> !isliked );
         if (unLikedAction) {
           unLikedAction();
         }
