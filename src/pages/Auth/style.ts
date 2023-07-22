@@ -1,31 +1,39 @@
 import styled from "styled-components";
 import gamerbg from "../../assets/Img/gamerbg.jpg";
 
-
 export const LoginContainer = styled.section`
-  width: 100vw;
   height: 100vh;
   background-image: url(${gamerbg});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  padding: 50px;
+
+ 
+  
 `;
 export const FormContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   max-width: 500px;
-  margin: 0 auto;
   background-color: white;
   height: 100%;
+  max-height:calc(500px + 100px);
   border-radius: 17px;
   border: 1px solid black;
-  padding: 50px 100px;
+  padding: 50px;
+ 
+  box-sizing: border-box;
 `;
 export const FormTitle = styled.h3`
   text-align: center;
 `;
 export const Form = styled.form`
   display: flex;
+  max-width: 300px;
+  margin: 0 auto;
   flex-direction: column;
   gap: 27px;
   margin-top: 48px;
@@ -54,6 +62,6 @@ export const BottonLink = styled.div`
   color: ${({ theme }) => theme.default.colors.purple};
   justify-content: center;
   &:hover {
-    opacity:0.8;
+    opacity: 0.8;
   }
 `;
