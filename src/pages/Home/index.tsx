@@ -17,11 +17,13 @@ import { Select } from "../../components/Inputs/Select";
 import useFetch from "../../hooks/useFetch";
 import { useAuth } from "../../hooks/useAuth";
 import dbService from "../../services/dbService";
+import Button from "../../components/button";
 
 function Home() {
   const [generosUnicos, setGenerosUnicos] = useState<string[]>([]);
   const { user } = useAuth();
-  const [dbUserData, setDbUserData] = useState<UserData | null>(null)
+  const [dbUserData, setDbUserData] = useState<UserData | null>(null);
+  const [currentIteration, setcurrentIteration] = useState(1);
 
   const {
     isLoading,
@@ -29,16 +31,13 @@ function Home() {
     data: apiData,
   } = useFetch<ApiData>("/data");
 
-  useEffect(()=>{
-    if(user){
-      dbService.getUser(user.user.uid).then((data)=>{
-        setDbUserData(data)
-      })
-
+  useEffect(() => {
+    if (user) {
+      dbService.getUser(user.user.uid).then((data) => {
+        setDbUserData(data);
+      });
     }
-
-  },[user])
-  
+  }, [user]);
 
   // filter
   const {
@@ -55,11 +54,22 @@ function Home() {
     setGenero(e.target.value);
   };
 
+  const itensPerPage = 6;
+  const IndexOfLastItem = currentIteration * itensPerPage;
+
+  const paginationItens = filtredMovies.slice(0, IndexOfLastItem);
+  console.log(filtredMovies.length);
+  console.log(paginationItens.length);
+
   useEffect(() => {
     const generos = [...new Set(apiData && apiData.map((item) => item.genre))];
     const generosUnicos = ["Todos", ...generos];
     setGenerosUnicos(generosUnicos);
   }, [apiData]);
+
+  const ShowMoreItens = () => {
+    setcurrentIteration((current) => current + 1);
+  };
 
   return (
     <>
@@ -100,18 +110,34 @@ function Home() {
             {!apiError && (
               <>
                 <GameContainer>
-                  {filtredMovies.length > 0 &&
-                    filtredMovies.map((data) => {
-                      return <GameCard key={data.id} data={data} dbUserData={dbUserData}></GameCard>;
+                  {paginationItens.length > 0 &&
+                    paginationItens.map((data) => {
+                      return (
+                        <GameCard
+                          key={data.id}
+                          data={data}
+                          dbUserData={dbUserData}
+                        ></GameCard>
+                      );
                     })}
                 </GameContainer>
                 {/* se o array estiver vazio e nao estiver em loading */}
-                {!isLoading && filtredMovies.length == 0 && (
+                {!isLoading && paginationItens.length == 0 && (
                   <ErrorMessage
                     message={
                       "OOPS, Esse jogo não existe pesquise por mais jogos"
                     }
                   />
+                )}
+                {isLoading &&
+                paginationItens.length >= filtredMovies.length ? (
+                  ""
+                ) : (
+                  <S.ShowMoreContainer>
+                    <Button onClick={() => ShowMoreItens()}>
+                      Mostrar Mais
+                    </Button>
+                  </S.ShowMoreContainer>
                 )}
               </>
             )}

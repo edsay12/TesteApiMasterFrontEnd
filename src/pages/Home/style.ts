@@ -9,7 +9,7 @@ export const Conteudo = styled.div`
    
 
 `
-    
+  
 
 
 export const BannerText = styled.h2`
@@ -18,3 +18,13 @@ export const BannerText = styled.h2`
     color: ${({ theme }) => theme.default.colors.purple};
   }
 `;
+
+export const ShowMoreContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+
+
+`
